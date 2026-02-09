@@ -379,7 +379,7 @@
         // Render Provinces
         const provBody = document.querySelector('#provinceTable tbody');
         if (data.province_stats) {
-            data.province_stats.slice(0, 10).forEach((p, idx) => {
+            data.province_stats.forEach((p, idx) => {
                 const rowId = `prov-detail-${idx}`;
                 const areasHtml = p.areas.map(a => `
                     <tr>
@@ -414,11 +414,11 @@
         // Render MP Parties
         const mpBody = document.querySelector('#mpPartyTable tbody');
         if (data.mp_party_stats) {
-            data.mp_party_stats.slice(0, 10).forEach((p, idx) => {
+            data.mp_party_stats.forEach((p, idx) => {
                 const pInfo = getPartyInfo(p.party_code);
                 const rowId = `mpparty-detail-${idx}`;
                 
-                const provHtml = p.provinces.slice(0, 10).map(pr => `
+                const provHtml = p.provinces.map(pr => `
                     <tr>
                         <td class="ps-4">${pr.name}</td>
                         <td class="text-end">${pr.count}</td>
