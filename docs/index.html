@@ -379,7 +379,7 @@
         // Render Provinces
         const provBody = document.querySelector('#provinceTable tbody');
         if (data.province_stats) {
-            data.province_stats.forEach((p, idx) => {
+            data.province_stats.slice(0, 10).forEach((p, idx) => {
                 const rowId = `prov-detail-${idx}`;
                 const areasHtml = p.areas.map(a => `
                     <tr>
