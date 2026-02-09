@@ -47,11 +47,11 @@ def compare_mp_and_pl():
             if not mp_number:
                 continue
 
-            # 2. Get Top 8 Party List data
+            # 2. Get Top 7 Party List data
             with open(pl_path, "r", encoding="utf-8") as f:
                 pl_data = json.load(f)
                 
-            pl_entries = pl_data.get("entries", [])[:8] # Get rank 1 to 8
+            pl_entries = pl_data.get("entries", [])[:7] # Get rank 1 to 7
             
             matches = []
             for pl_entry in pl_entries:
@@ -59,6 +59,8 @@ def compare_mp_and_pl():
                 last_2 = pl_party_code[-2:]
                 
                 # Logic: Skip if party number is "6" or "9"
+                # "6" is United Thai Nation Party
+                # "9" is Pheu Thai Party
                 if last_2 in ["06", "09"]:
                     continue
                 
