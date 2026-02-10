@@ -73,15 +73,6 @@
       "non_twin_area_count": 397
     },
     {
-      "party_code": "PARTY-0011",
-      "party_number": "11",
-      "avg_twin_votes": 2204.0,
-      "avg_non_twin_votes": 2615.69,
-      "diff": -411.69,
-      "twin_area_count": 2,
-      "non_twin_area_count": 398
-    },
-    {
       "party_code": "PARTY-0012",
       "party_number": "12",
       "avg_twin_votes": 704.0,

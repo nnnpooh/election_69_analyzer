@@ -1,30 +1,31 @@
-import os
 import json
+from pathlib import Path
+from typing import List, Dict, Any
 
-def compare_mp_and_pl():
+def compare_mp_and_pl() -> None:
     """
-    Compares the winning MP candidate number with the top 8 Party List party numbers.
+    Compares the winning MP candidate number with the top 20 Party List party numbers.
     """
-    mp_dir = "data/mp"
-    pl_dir = "data/pl"
+    base_dir = Path("rawdata")
+    mp_dir = base_dir / "mp"
+    pl_dir = base_dir / "pl"
     
-    if not os.path.exists(mp_dir) or not os.path.exists(pl_dir):
-        print("Error: data/mp or data/pl directory not found.")
+    if not mp_dir.exists() or not pl_dir.exists():
+        print("Error: rawdata/mp or rawdata/pl directory not found.")
         return
 
-    mp_files = [f for f in os.listdir(mp_dir) if f.endswith(".json")]
+    mp_files = sorted([f for f in mp_dir.iterdir() if f.suffix == ".json"])
     
     print(f"{'Area':<6} | {'MP Num':<6} | {'MP Party':<10} | {'Status':<30}")
     print("-" * 50)
 
-    all_matches = []
+    all_matches: List[Dict[str, Any]] = []
 
-    for filename in mp_files:
-        area_code = filename.replace(".json", "")
-        mp_path = os.path.join(mp_dir, filename)
-        pl_path = os.path.join(pl_dir, filename)
+    for mp_path in mp_files:
+        area_code = mp_path.stem
+        pl_path = pl_dir / mp_path.name
         
-        if not os.path.exists(pl_path):
+        if not pl_path.exists():
             continue
 
         try:
@@ -47,21 +48,22 @@ def compare_mp_and_pl():
             if not mp_number:
                 continue
 
-            # 2. Get Top 7 Party List data
+            # 2. Get Top 20 Party List data
             with open(pl_path, "r", encoding="utf-8") as f:
                 pl_data = json.load(f)
                 
-            pl_entries = pl_data.get("entries", [])[:7] # Get rank 1 to 7
+            pl_entries = pl_data.get("entries", [])[:20] # Get rank 1 to 20
             
             matches = []
             for pl_entry in pl_entries:
                 pl_party_code = pl_entry.get("partyCode", "")
                 last_2 = pl_party_code[-2:]
                 
-                # Logic: Skip if party number is "6" or "9"
+                # Logic: Skip if party number is "6", "9" or "11"
                 # "6" is United Thai Nation Party
                 # "9" is Pheu Thai Party
-                if last_2 in ["06", "09"]:
+                # "11" is Chart Thai Pattana Party
+                if last_2 in ["06", "09", "11"]:
                     continue
                 
                 # Compare
@@ -111,6 +113,6 @@ def compare_mp_and_pl():
     print("="*40)
 
 if __name__ == "__main__":
-    print("--- MP winning number vs Top 8 Party List comparison ---")
-    print("Logic: Ignores Party 06 and 09")
+    print("--- MP winning number vs Top 20 Party List comparison ---")
+    print("Logic: Ignores Party 06, 09 and 11")
     compare_mp_and_pl()

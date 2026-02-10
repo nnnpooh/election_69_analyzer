@@ -1,18 +1,24 @@
 {
   "groups": {
     "A": {
-      "total": 3814035,
-      "average": 293387.3076923077,
-      "count": 13
+      "pl_total": 2768583,
+      "mp_total": 97796,
+      "average_pl": 230715.25,
+      "ratio": 28.309777496012106,
+      "count": 12
     },
     "B": {
-      "total": 5852635,
-      "average": 2926317.5,
-      "count": 2
+      "pl_total": 6898087,
+      "mp_total": 6434014,
+      "average_pl": 2299362.3333333335,
+      "ratio": 1.0721280681080272,
+      "count": 3
     },
     "C": {
-      "total": 22260978,
-      "average": 494688.4,
+      "pl_total": 22260978,
+      "mp_total": 25343996,
+      "average_pl": 494688.4,
+      "ratio": 0.8783531215835103,
       "count": 45
     }
   },
@@ -20,302 +26,482 @@
     {
       "party_number": 1,
       "party_code": "PARTY-0001",
-      "total_votes": 284761
+      "total_votes": 284761,
+      "pl_total_votes": 284761,
+      "mp_total_votes": 2440,
+      "ratio": 116.71
     },
     {
       "party_number": 2,
       "party_code": "PARTY-0002",
-      "total_votes": 628493
+      "total_votes": 628493,
+      "pl_total_votes": 628493,
+      "mp_total_votes": 459,
+      "ratio": 1369.27
     },
     {
       "party_number": 3,
       "party_code": "PARTY-0003",
-      "total_votes": 294239
+      "total_votes": 294239,
+      "pl_total_votes": 294239,
+      "mp_total_votes": 653,
+      "ratio": 450.6
     },
     {
       "party_number": 4,
       "party_code": "PARTY-0004",
-      "total_votes": 230170
+      "total_votes": 230170,
+      "pl_total_votes": 230170,
+      "mp_total_votes": 1205,
+      "ratio": 191.01
     },
     {
       "party_number": 5,
       "party_code": "PARTY-0005",
-      "total_votes": 403671
+      "total_votes": 403671,
+      "pl_total_votes": 403671,
+      "mp_total_votes": 2638,
+      "ratio": 153.02
     },
     {
       "party_number": 6,
       "party_code": "PARTY-0006",
-      "total_votes": 705035
+      "total_votes": 705035,
+      "pl_total_votes": 705035,
+      "mp_total_votes": 292480,
+      "ratio": 2.41
     },
     {
       "party_number": 7,
       "party_code": "PARTY-0007",
-      "total_votes": 108235
+      "total_votes": 108235,
+      "pl_total_votes": 108235,
+      "mp_total_votes": 29943,
+      "ratio": 3.61
     },
     {
       "party_number": 8,
       "party_code": "PARTY-0008",
-      "total_votes": 237672
+      "total_votes": 237672,
+      "pl_total_votes": 237672,
+      "mp_total_votes": 20951,
+      "ratio": 11.34
     },
     {
       "party_number": 9,
       "party_code": "PARTY-0009",
-      "total_votes": 5147600
+      "total_votes": 5147600,
+      "pl_total_votes": 5147600,
+      "mp_total_votes": 5776100,
+      "ratio": 0.89
     },
     {
       "party_number": 10,
       "party_code": "PARTY-0010",
-      "total_votes": 156704
+      "total_votes": 156704,
+      "pl_total_votes": 156704,
+      "mp_total_votes": 18921,
+      "ratio": 8.28
     },
     {
       "party_number": 11,
       "party_code": "PARTY-0011",
-      "total_votes": 1045452
+      "total_votes": 1045452,
+      "pl_total_votes": 1045452,
+      "mp_total_votes": 365434,
+      "ratio": 2.86
     },
     {
       "party_number": 12,
       "party_code": "PARTY-0012",
-      "total_votes": 170156
+      "total_votes": 170156,
+      "pl_total_votes": 170156,
+      "mp_total_votes": 15224,
+      "ratio": 11.18
     },
     {
       "party_number": 13,
       "party_code": "PARTY-0013",
-      "total_votes": 182255
+      "total_votes": 182255,
+      "pl_total_votes": 182255,
+      "mp_total_votes": 1701,
+      "ratio": 107.15
     },
     {
       "party_number": 14,
       "party_code": "PARTY-0014",
-      "total_votes": 44567
+      "total_votes": 44567,
+      "pl_total_votes": 44567,
+      "mp_total_votes": 1515,
+      "ratio": 29.42
     },
     {
       "party_number": 15,
       "party_code": "PARTY-0015",
-      "total_votes": 27660
+      "total_votes": 27660,
+      "pl_total_votes": 27660,
+      "mp_total_votes": 2146,
+      "ratio": 12.89
     },
     {
       "party_number": 16,
       "party_code": "PARTY-0016",
-      "total_votes": 66966
+      "total_votes": 66966,
+      "pl_total_votes": 66966,
+      "mp_total_votes": 280,
+      "ratio": 239.16
     },
     {
       "party_number": 17,
       "party_code": "PARTY-0017",
-      "total_votes": 48695
+      "total_votes": 48695,
+      "pl_total_votes": 48695,
+      "mp_total_votes": 1316,
+      "ratio": 37.0
     },
     {
       "party_number": 18,
       "party_code": "PARTY-0018",
-      "total_votes": 10842
+      "total_votes": 10842,
+      "pl_total_votes": 10842,
+      "mp_total_votes": 496,
+      "ratio": 21.86
     },
     {
       "party_number": 19,
       "party_code": "PARTY-0019",
-      "total_votes": 18357
+      "total_votes": 18357,
+      "pl_total_votes": 18357,
+      "mp_total_votes": 786,
+      "ratio": 23.35
     },
     {
       "party_number": 20,
       "party_code": "PARTY-0020",
-      "total_votes": 12264
+      "total_votes": 12264,
+      "pl_total_votes": 12264,
+      "mp_total_votes": 1848,
+      "ratio": 6.64
     },
     {
       "party_number": 21,
       "party_code": "PARTY-0021",
-      "total_votes": 152414
+      "total_votes": 152414,
+      "pl_total_votes": 152414,
+      "mp_total_votes": 341328,
+      "ratio": 0.45
     },
     {
       "party_number": 22,
       "party_code": "PARTY-0022",
-      "total_votes": 16398
+      "total_votes": 16398,
+      "pl_total_votes": 16398,
+      "mp_total_votes": 3742,
+      "ratio": 4.38
     },
     {
       "party_number": 23,
       "party_code": "PARTY-0023",
-      "total_votes": 26447
+      "total_votes": 26447,
+      "pl_total_votes": 26447,
+      "mp_total_votes": 45824,
+      "ratio": 0.58
     },
     {
       "party_number": 24,
       "party_code": "PARTY-0024",
-      "total_votes": 40467
+      "total_votes": 40467,
+      "pl_total_votes": 40467,
+      "mp_total_votes": 9217,
+      "ratio": 4.39
     },
     {
       "party_number": 25,
       "party_code": "PARTY-0025",
-      "total_votes": 13068
+      "total_votes": 13068,
+      "pl_total_votes": 13068,
+      "mp_total_votes": 320,
+      "ratio": 40.84
     },
     {
       "party_number": 26,
       "party_code": "PARTY-0026",
-      "total_votes": 33892
+      "total_votes": 33892,
+      "pl_total_votes": 33892,
+      "mp_total_votes": 338,
+      "ratio": 100.27
     },
     {
       "party_number": 27,
       "party_code": "PARTY-0027",
-      "total_votes": 3651026
+      "total_votes": 3651026,
+      "pl_total_votes": 3651026,
+      "mp_total_votes": 2009435,
+      "ratio": 1.82
     },
     {
       "party_number": 28,
       "party_code": "PARTY-0028",
-      "total_votes": 46691
+      "total_votes": 46691,
+      "pl_total_votes": 46691,
+      "mp_total_votes": 1705,
+      "ratio": 27.38
     },
     {
       "party_number": 29,
       "party_code": "PARTY-0029",
-      "total_votes": 226040
+      "total_votes": 226040,
+      "pl_total_votes": 226040,
+      "mp_total_votes": 30692,
+      "ratio": 7.36
     },
     {
       "party_number": 30,
       "party_code": "PARTY-0030",
-      "total_votes": 50778
+      "total_votes": 50778,
+      "pl_total_votes": 50778,
+      "mp_total_votes": 7814,
+      "ratio": 6.5
     },
     {
       "party_number": 31,
       "party_code": "PARTY-0031",
-      "total_votes": 65666
+      "total_votes": 65666,
+      "pl_total_votes": 65666,
+      "mp_total_votes": 20645,
+      "ratio": 3.18
     },
     {
       "party_number": 32,
       "party_code": "PARTY-0032",
-      "total_votes": 52246
+      "total_votes": 52246,
+      "pl_total_votes": 52246,
+      "mp_total_votes": 152,
+      "ratio": 343.72
     },
     {
       "party_number": 33,
       "party_code": "PARTY-0033",
-      "total_votes": 401527
+      "total_votes": 401527,
+      "pl_total_votes": 401527,
+      "mp_total_votes": 288759,
+      "ratio": 1.39
     },
     {
       "party_number": 34,
       "party_code": "PARTY-0034",
-      "total_votes": 55764
+      "total_votes": 55764,
+      "pl_total_votes": 55764,
+      "mp_total_votes": 215,
+      "ratio": 259.37
     },
     {
       "party_number": 35,
       "party_code": "PARTY-0035",
-      "total_votes": 63609
+      "total_votes": 63609,
+      "pl_total_votes": 63609,
+      "mp_total_votes": 15138,
+      "ratio": 4.2
     },
     {
       "party_number": 36,
       "party_code": "PARTY-0036",
-      "total_votes": 56396
+      "total_votes": 56396,
+      "pl_total_votes": 56396,
+      "mp_total_votes": 5548,
+      "ratio": 10.17
     },
     {
       "party_number": 37,
       "party_code": "PARTY-0037",
-      "total_votes": 5954535
+      "total_votes": 5954535,
+      "pl_total_votes": 5954535,
+      "mp_total_votes": 9973228,
+      "ratio": 0.6
     },
     {
       "party_number": 38,
       "party_code": "PARTY-0038",
-      "total_votes": 83941
+      "total_votes": 83941,
+      "pl_total_votes": 83941,
+      "mp_total_votes": 50,
+      "ratio": 1678.82
     },
     {
       "party_number": 39,
       "party_code": "PARTY-0039",
-      "total_votes": 22187
+      "total_votes": 22187,
+      "pl_total_votes": 22187,
+      "mp_total_votes": 996,
+      "ratio": 22.28
     },
     {
       "party_number": 40,
       "party_code": "PARTY-0040",
-      "total_votes": 20517
+      "total_votes": 20517,
+      "pl_total_votes": 20517,
+      "mp_total_votes": 1492,
+      "ratio": 13.75
     },
     {
       "party_number": 41,
       "party_code": "PARTY-0041",
-      "total_votes": 12624
+      "total_votes": 12624,
+      "pl_total_votes": 12624,
+      "mp_total_votes": 139,
+      "ratio": 90.82
     },
     {
       "party_number": 42,
       "party_code": "PARTY-0042",
-      "total_votes": 605936
+      "total_votes": 605936,
+      "pl_total_votes": 605936,
+      "mp_total_votes": 3843453,
+      "ratio": 0.16
     },
     {
       "party_number": 43,
       "party_code": "PARTY-0043",
-      "total_votes": 129951
+      "total_votes": 129951,
+      "pl_total_votes": 129951,
+      "mp_total_votes": 462974,
+      "ratio": 0.28
     },
     {
       "party_number": 44,
       "party_code": "PARTY-0044",
-      "total_votes": 74748
+      "total_votes": 74748,
+      "pl_total_votes": 74748,
+      "mp_total_votes": 175516,
+      "ratio": 0.43
     },
     {
       "party_number": 45,
       "party_code": "PARTY-0045",
-      "total_votes": 32114
+      "total_votes": 32114,
+      "pl_total_votes": 32114,
+      "mp_total_votes": 6740,
+      "ratio": 4.76
     },
     {
       "party_number": 46,
       "party_code": "PARTY-0046",
-      "total_votes": 9777951
+      "total_votes": 9777951,
+      "pl_total_votes": 9777951,
+      "mp_total_votes": 7841837,
+      "ratio": 1.25
     },
     {
       "party_number": 47,
       "party_code": "PARTY-0047",
-      "total_votes": 57052
+      "total_votes": 57052,
+      "pl_total_votes": 57052,
+      "mp_total_votes": 420,
+      "ratio": 135.84
     },
     {
       "party_number": 48,
       "party_code": "PARTY-0048",
-      "total_votes": 185456
+      "total_votes": 185456,
+      "pl_total_votes": 185456,
+      "mp_total_votes": 136262,
+      "ratio": 1.36
     },
     {
       "party_number": 49,
       "party_code": "PARTY-0049",
-      "total_votes": 99227
+      "total_votes": 99227,
+      "pl_total_votes": 99227,
+      "mp_total_votes": 98473,
+      "ratio": 1.01
     },
     {
       "party_number": 50,
       "party_code": "PARTY-0050",
-      "total_votes": 5301
+      "total_votes": 5301,
+      "pl_total_votes": 5301,
+      "mp_total_votes": 135,
+      "ratio": 39.27
     },
     {
       "party_number": 51,
       "party_code": "PARTY-0051",
-      "total_votes": 16053
+      "total_votes": 16053,
+      "pl_total_votes": 16053,
+      "mp_total_votes": 784,
+      "ratio": 20.48
     },
     {
       "party_number": 52,
       "party_code": "PARTY-0052",
-      "total_votes": 8359
+      "total_votes": 8359,
+      "pl_total_votes": 8359,
+      "mp_total_votes": 458,
+      "ratio": 18.25
     },
     {
       "party_number": 53,
       "party_code": "PARTY-0053",
-      "total_votes": 5225
+      "total_votes": 5225,
+      "pl_total_votes": 5225,
+      "mp_total_votes": 1416,
+      "ratio": 3.69
     },
     {
       "party_number": 54,
       "party_code": "PARTY-0054",
-      "total_votes": 8769
+      "total_votes": 8769,
+      "pl_total_votes": 8769,
+      "mp_total_votes": 176,
+      "ratio": 49.82
     },
     {
       "party_number": 55,
       "party_code": "PARTY-0055",
-      "total_votes": 7553
+      "total_votes": 7553,
+      "pl_total_votes": 7553,
+      "mp_total_votes": 94,
+      "ratio": 80.35
     },
     {
       "party_number": 56,
       "party_code": "PARTY-0056",
-      "total_votes": 23127
+      "total_votes": 23127,
+      "pl_total_votes": 23127,
+      "mp_total_votes": 10606,
+      "ratio": 2.18
     },
     {
       "party_number": 57,
       "party_code": "PARTY-0057",
-      "total_votes": 20799
+      "total_votes": 20799,
+      "pl_total_votes": 20799,
+      "mp_total_votes": 1452,
+      "ratio": 14.32
     },
     {
       "party_number": 58,
       "party_code": "PARTY-0058",
-      "total_votes": 0
+      "total_votes": 0,
+      "pl_total_votes": 0,
+      "mp_total_votes": 184,
+      "ratio": 0.0
     },
     {
       "party_number": 59,
       "party_code": "PARTY-0059",
-      "total_votes": 0
+      "total_votes": 0,
+      "pl_total_votes": 0,
+      "mp_total_votes": 111,
+      "ratio": 0.0
     },
     {
       "party_number": 60,
       "party_code": "PARTY-0060",
-      "total_votes": 0
+      "total_votes": 0,
+      "pl_total_votes": 0,
+      "mp_total_votes": 1402,
+      "ratio": 0.0
     }
   ]
 }

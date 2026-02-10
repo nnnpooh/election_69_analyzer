@@ -1,20 +1,21 @@
-import os
 import json
+from pathlib import Path
 from collections import defaultdict
+from typing import Dict, List, Optional, Tuple, Any
 
 # Configuration
-MP_DIR = "data/mp"
-PL_DIR = "data/pl"
-COMMON_DATA_FILE = "docs/data/common-data.json"
-OUTPUT_ANOMALY_FILE = "data/anomaly_report.json"
-OUTPUT_PROVINCE_FILE = "data/province_stats.json"
-OUTPUT_MP_PARTY_FILE = "data/mp_party_stats.json"
-OUTPUT_COMPARISON_FILE = "data/party_comparison_stats.json"
+MP_DIR = Path("rawdata/mp")
+PL_DIR = Path("rawdata/pl")
+COMMON_DATA_FILE = Path("docs/data/common-data.json")
+OUTPUT_ANOMALY_FILE = Path("docs/data/anomaly_report.json")
+OUTPUT_PROVINCE_FILE = Path("docs/data/province_stats.json")
+OUTPUT_MP_PARTY_FILE = Path("docs/data/mp_party_stats.json")
+OUTPUT_COMPARISON_FILE = Path("docs/data/party_comparison_stats.json")
 TARGET_NUMBER_RANGE = [str(i) for i in range(1, 16)] 
-EXCLUDED_PARTIES = ["6", "9"] 
+EXCLUDED_PARTIES = ["6", "9", "11"] 
 
-def load_province_map():
-    if not os.path.exists(COMMON_DATA_FILE):
+def load_province_map() -> Dict[str, str]:
+    if not COMMON_DATA_FILE.exists():
         return {}
     try:
         with open(COMMON_DATA_FILE, "r", encoding="utf-8") as f:
@@ -26,11 +27,11 @@ def load_province_map():
         print(f"Warning: Could not load common data: {e}")
         return {}
 
-def get_province_info(area_code, province_map):
+def get_province_info(area_code: str, province_map: Dict[str, str]) -> Tuple[str, str]:
     prefix = area_code[:2]
     return prefix, province_map.get(prefix, f"Unknown ({prefix})")
 
-def get_candidate_number_str(candidate_code, area_code):
+def get_candidate_number_str(candidate_code: str, area_code: str) -> Optional[str]:
     """
     Extracts candidate number string from code, e.g., 'CANDIDATE-MP-100105' -> '5'
     """
@@ -48,27 +49,27 @@ def main():
     
     province_map = load_province_map()
     
-    if not os.path.exists(MP_DIR):
+    if not MP_DIR.exists():
         print(f"Error: Directory {MP_DIR} not found.")
         return
 
-    mp_files = sorted([f for f in os.listdir(MP_DIR) if f.endswith(".json")])
-    anomalies = []
+    mp_files = sorted([f for f in MP_DIR.iterdir() if f.suffix == ".json"])
+    anomalies: List[Dict[str, Any]] = []
     
     # Initialize Comparison Stats: Track votes for targeted parties
     # Structure: { "PARTY-000X": { "twin_votes": [], "non_twin_votes": [] } }
-    comparison_stats = {}
+    comparison_stats: Dict[str, Dict[str, Any]] = {}
     target_numbers = [n for n in TARGET_NUMBER_RANGE if n not in EXCLUDED_PARTIES]
     for n in target_numbers:
         pid = f"PARTY-{int(n):04d}"
         comparison_stats[pid] = {"twin_votes": [], "non_twin_votes": [], "number": n}
 
     for filename in mp_files:
-        area_code = filename.replace(".json", "")
-        mp_path = os.path.join(MP_DIR, filename)
-        pl_path = os.path.join(PL_DIR, filename)
+        area_code = filename.stem # filename without suffix
+        mp_path = filename
+        pl_path = PL_DIR / filename.name
 
-        if not os.path.exists(pl_path):
+        if not pl_path.exists():
             continue
 
         try:
@@ -155,7 +156,12 @@ def main():
                 # (Almost always true, as Party-0005 is likely not the party of Candidate #5)
                 is_different_party = winner_party_code != target_party_id
                 
-                if is_different_party and pl_rank <= 7:
+                # Filter for "Forgotten Candidates" analyses:
+                # 1. High Rank (Top 10) - Pure Twin Effect
+                # 2. Existing MP Candidate (Vote > 0) with significant PL votes (>100) - For Forgotten Candidates table
+                is_interesting_case = pl_rank <= 10 or (mp_twin_votes > 0 and pl_votes >= 50)
+
+                if is_different_party and is_interesting_case:
                     anomalies.append({
                         "area_code": area_code,
                         "mp_winner_number": winner_num_str,
@@ -269,7 +275,7 @@ def main():
     anomaly_data = {
         "metadata": {
             "description": "Anomaly detection report based on Twin Number Hypothesis (Buy 1 Get 2)",
-            "criteria": "Winner MP Number (1-15, excl 6,9) matches Top 7 Party List Number (Different Party)",
+            "criteria": "Winner MP Number (1-15, excl 6,9,11) matches Top 7 Party List Number (Different Party)",
             "total_areas_flagged": len(anomalies)
         },
         "anomalies": anomalies

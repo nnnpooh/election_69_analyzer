@@ -2,8 +2,8 @@
   "mp_party_stats": [
     {
       "party_code": "PARTY-0037",
-      "count": 140,
-      "total_ghost_votes": 373273,
+      "count": 161,
+      "total_ghost_votes": 399767,
       "provinces": [
         {
           "name": "ศรีสะเกษ",
@@ -22,8 +22,8 @@
         },
         {
           "name": "เพชรบูรณ์",
-          "count": 5,
-          "votes": 16901
+          "count": 6,
+          "votes": 18920
         },
         {
           "name": "นครสวรรค์",
@@ -32,13 +32,18 @@
         },
         {
           "name": "ชลบุรี",
-          "count": 4,
-          "votes": 13589
+          "count": 5,
+          "votes": 14906
         },
         {
           "name": "กาญจนบุรี",
           "count": 3,
           "votes": 11589
+        },
+        {
+          "name": "อุบลราชธานี",
+          "count": 4,
+          "votes": 11572
         },
         {
           "name": "สระบุรี",
@@ -71,11 +76,6 @@
           "votes": 9769
         },
         {
-          "name": "อุบลราชธานี",
-          "count": 3,
-          "votes": 9550
-        },
-        {
           "name": "นครราชสีมา",
           "count": 3,
           "votes": 9244
@@ -94,6 +94,11 @@
           "name": "ปัตตานี",
           "count": 4,
           "votes": 8591
+        },
+        {
+          "name": "นครปฐม",
+          "count": 3,
+          "votes": 7417
         },
         {
           "name": "กระบี่",
@@ -126,9 +131,14 @@
           "votes": 6391
         },
         {
-          "name": "นครปฐม",
-          "count": 2,
-          "votes": 6062
+          "name": "ราชบุรี",
+          "count": 3,
+          "votes": 6334
+        },
+        {
+          "name": "สงขลา",
+          "count": 4,
+          "votes": 5712
         },
         {
           "name": "อ่างทอง",
@@ -151,24 +161,24 @@
           "votes": 4744
         },
         {
-          "name": "สงขลา",
-          "count": 3,
-          "votes": 4553
-        },
-        {
-          "name": "ราชบุรี",
-          "count": 2,
-          "votes": 4466
-        },
-        {
           "name": "ขอนแก่น",
           "count": 2,
           "votes": 4365
         },
         {
+          "name": "บึงกาฬ",
+          "count": 2,
+          "votes": 4177
+        },
+        {
           "name": "สิงห์บุรี",
           "count": 1,
           "votes": 4033
+        },
+        {
+          "name": "นครศรีธรรมราช",
+          "count": 4,
+          "votes": 3791
         },
         {
           "name": "นครพนม",
@@ -179,6 +189,11 @@
           "name": "เชียงราย",
           "count": 1,
           "votes": 3572
+        },
+        {
+          "name": "ประจวบคีรีขันธ์",
+          "count": 2,
+          "votes": 3546
         },
         {
           "name": "แม่ฮ่องสอน",
@@ -231,14 +246,24 @@
           "votes": 2650
         },
         {
+          "name": "ชุมพร",
+          "count": 3,
+          "votes": 2649
+        },
+        {
           "name": "สกลนคร",
           "count": 1,
           "votes": 2620
         },
         {
-          "name": "บึงกาฬ",
-          "count": 1,
-          "votes": 2455
+          "name": "แพร่",
+          "count": 2,
+          "votes": 2524
+        },
+        {
+          "name": "สตูล",
+          "count": 2,
+          "votes": 2522
         },
         {
           "name": "ตรัง",
@@ -246,9 +271,9 @@
           "votes": 2452
         },
         {
-          "name": "นครศรีธรรมราช",
+          "name": "พังงา",
           "count": 2,
-          "votes": 2403
+          "votes": 2435
         },
         {
           "name": "ระยอง",
@@ -266,24 +291,19 @@
           "votes": 1994
         },
         {
-          "name": "แพร่",
-          "count": 1,
-          "votes": 1634
-        },
-        {
-          "name": "สตูล",
-          "count": 1,
-          "votes": 1370
+          "name": "พัทลุง",
+          "count": 2,
+          "votes": 1972
         },
         {
           "name": "สุราษฎร์ธานี",
-          "count": 1,
-          "votes": 1335
+          "count": 2,
+          "votes": 1955
         },
         {
-          "name": "พังงา",
+          "name": "มุกดาหาร",
           "count": 1,
-          "votes": 1302
+          "votes": 1874
         },
         {
           "name": "สมุทรปราการ",
@@ -291,16 +311,16 @@
           "votes": 1267
         },
         {
-          "name": "พัทลุง",
+          "name": "ระนอง",
           "count": 1,
-          "votes": 1185
+          "votes": 993
         }
       ]
     },
     {
       "party_code": "PARTY-0009",
-      "count": 47,
-      "total_ghost_votes": 129346,
+      "count": 50,
+      "total_ghost_votes": 135077,
       "provinces": [
         {
           "name": "นครราชสีมา",
@@ -348,19 +368,24 @@
           "votes": 7327
         },
         {
+          "name": "เชียงราย",
+          "count": 2,
+          "votes": 6247
+        },
+        {
           "name": "นครพนม",
           "count": 2,
           "votes": 5877
         },
         {
+          "name": "กำแพงเพชร",
+          "count": 2,
+          "votes": 4678
+        },
+        {
           "name": "ลพบุรี",
           "count": 1,
           "votes": 4301
-        },
-        {
-          "name": "เชียงราย",
-          "count": 1,
-          "votes": 4255
         },
         {
           "name": "ฉะเชิงเทรา",
@@ -371,11 +396,6 @@
           "name": "สกลนคร",
           "count": 2,
           "votes": 3876
-        },
-        {
-          "name": "กำแพงเพชร",
-          "count": 1,
-          "votes": 2549
         },
         {
           "name": "มหาสารคาม",
@@ -403,6 +423,11 @@
           "votes": 1611
         },
         {
+          "name": "พิษณุโลก",
+          "count": 1,
+          "votes": 1610
+        },
+        {
           "name": "ร้อยเอ็ด",
           "count": 1,
           "votes": 1372
@@ -411,13 +436,18 @@
     },
     {
       "party_code": "PARTY-0042",
-      "count": 44,
-      "total_ghost_votes": 132029,
+      "count": 49,
+      "total_ghost_votes": 141115,
       "provinces": [
         {
           "name": "เชียงใหม่",
           "count": 4,
           "votes": 12933
+        },
+        {
+          "name": "ฉะเชิงเทรา",
+          "count": 3,
+          "votes": 10438
         },
         {
           "name": "กำแพงเพชร",
@@ -438,11 +468,6 @@
           "name": "ขอนแก่น",
           "count": 3,
           "votes": 8044
-        },
-        {
-          "name": "ฉะเชิงเทรา",
-          "count": 2,
-          "votes": 7519
         },
         {
           "name": "เชียงราย",
@@ -475,6 +500,11 @@
           "votes": 5090
         },
         {
+          "name": "สกลนคร",
+          "count": 2,
+          "votes": 5071
+        },
+        {
           "name": "สงขลา",
           "count": 3,
           "votes": 4952
@@ -503,11 +533,6 @@
           "name": "มุกดาหาร",
           "count": 1,
           "votes": 3451
-        },
-        {
-          "name": "สกลนคร",
-          "count": 1,
-          "votes": 3235
         },
         {
           "name": "สระแก้ว",
@@ -540,17 +565,99 @@
           "votes": 1960
         },
         {
+          "name": "กาฬสินธุ์",
+          "count": 1,
+          "votes": 1885
+        },
+        {
           "name": "สุราษฎร์ธานี",
           "count": 1,
           "votes": 1316
+        },
+        {
+          "name": "นครศรีธรรมราช",
+          "count": 1,
+          "votes": 1233
+        },
+        {
+          "name": "ภูเก็ต",
+          "count": 1,
+          "votes": 1213
+        }
+      ]
+    },
+    {
+      "party_code": "PARTY-0046",
+      "count": 27,
+      "total_ghost_votes": 19641,
+      "provinces": [
+        {
+          "name": "กรุงเทพมหานคร",
+          "count": 11,
+          "votes": 4781
+        },
+        {
+          "name": "ลำพูน",
+          "count": 2,
+          "votes": 3109
+        },
+        {
+          "name": "น่าน",
+          "count": 1,
+          "votes": 2480
+        },
+        {
+          "name": "เชียงใหม่",
+          "count": 3,
+          "votes": 2014
+        },
+        {
+          "name": "นครราชสีมา",
+          "count": 2,
+          "votes": 1612
+        },
+        {
+          "name": "สมุทรปราการ",
+          "count": 2,
+          "votes": 1306
+        },
+        {
+          "name": "ลำปาง",
+          "count": 1,
+          "votes": 1194
+        },
+        {
+          "name": "สมุทรสงคราม",
+          "count": 1,
+          "votes": 1070
+        },
+        {
+          "name": "ระยอง",
+          "count": 1,
+          "votes": 1006
+        },
+        {
+          "name": "นนทบุรี",
+          "count": 2,
+          "votes": 582
+        },
+        {
+          "name": "ชลบุรี",
+          "count": 1,
+          "votes": 487
         }
       ]
     },
     {
       "party_code": "PARTY-0027",
-      "count": 5,
-      "total_ghost_votes": 5722,
+      "count": 9,
+      "total_ghost_votes": 9726,
       "provinces": [
+        {
+          "name": "นครศรีธรรมราช",
+          "count": 4,
+          "votes": 4024
+        },
         {
           "name": "ตรัง",
           "count": 2,
@@ -562,9 +669,9 @@
           "votes": 1426
         },
         {
-          "name": "นครศรีธรรมราช",
+          "name": "สุราษฎร์ธานี",
           "count": 1,
-          "votes": 1056
+          "votes": 1036
         },
         {
           "name": "สงขลา",
@@ -575,45 +682,18 @@
     },
     {
       "party_code": "PARTY-0021",
-      "count": 4,
-      "total_ghost_votes": 11281,
+      "count": 5,
+      "total_ghost_votes": 13913,
       "provinces": [
         {
           "name": "อุบลราชธานี",
-          "count": 3,
-          "votes": 9798
+          "count": 4,
+          "votes": 12430
         },
         {
           "name": "สุราษฎร์ธานี",
           "count": 1,
           "votes": 1483
-        }
-      ]
-    },
-    {
-      "party_code": "PARTY-0046",
-      "count": 4,
-      "total_ghost_votes": 8809,
-      "provinces": [
-        {
-          "name": "สมุทรปราการ",
-          "count": 1,
-          "votes": 2924
-        },
-        {
-          "name": "น่าน",
-          "count": 1,
-          "votes": 2480
-        },
-        {
-          "name": "ลำพูน",
-          "count": 1,
-          "votes": 1921
-        },
-        {
-          "name": "กรุงเทพมหานคร",
-          "count": 1,
-          "votes": 1484
         }
       ]
     },

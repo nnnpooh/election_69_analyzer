@@ -112,6 +112,26 @@
             <h1 class="display-4 fw-bold mb-3">🚨 ตรวจจับความผิดปกติการเลือกตั้ง 69</h1>
             <p class="lead text-secondary fw-normal">วิเคราะห์ความสัมพันธ์ของคะแนน "บัตร 2 ใบ" ที่น่าสงสัย จากรูปแบบ Twin Number</p>
         </header>
+
+        <!-- Educational Disclaimer -->
+        <div class="alert alert-light border-start border-4 border-info shadow-sm mb-5 text-start" role="alert" style="background-color: #f8f9fa;">
+            <div class="d-flex">
+                <div class="fs-4 me-3 text-info">ℹ️</div>
+                <div>
+                    <h5 class="alert-heading fw-bold">เจตนารมณ์และคำชี้แจง (Disclaimer)</h5>
+                    <p class="mb-2">
+                        เว็บไซต์นี้จัดทำขึ้นเพื่อ<strong>การศึกษา (Educational Purpose)</strong> และวิเคราะห์ข้อมูลทางสถิติเท่านั้น 
+                        โดยมีสมมติฐานการวิเคราะห์ (Hypothesis) คือ:
+                        <em>"ความสอดคล้องของหมายเลขผู้สมัคร ส.ส. เขต และหมายเลขพรรคบัญชีรายชื่อ (Twin Number) มีผลทางจิตวิทยาที่ทำให้เกิดคะแนนเสมือน (Ghost Votes) หรือไม่"</em>
+                    </p>
+                    <p class="mb-0 small text-secondary">
+                        * ข้อมูลทั้งหมดประมวลผลจากรายงานผลคะแนนเลือกตั้งอย่างไม่เป็นทางการ เพื่อนำเสนอข้อสังเกตจากข้อมูล (Data Visualization) 
+                        <strong>ไม่ได้มีเจตนาชี้นำ กล่าวหา หรือลดทอนความน่าเชื่อถือของพรรคการเมืองใดๆ</strong> 
+                        แต่เพื่อให้เห็นรูปแบบความสัมพันธ์ของตัวเลขที่น่าสนใจทางคณิตศาสตร์เท่านั้น
+                    </p>
+                </div>
+            </div>
+        </div>
         
         <!-- Summary Stats -->
         <div class="row g-4 mb-5">
@@ -219,10 +239,65 @@
                 <p class="card-text text-secondary mb-4">
                     กราฟแสดง <strong>คะแนนรวมทั้งประเทศ</strong> ของแต่ละพรรค เรียงตาม <strong>หมายเลขพรรค (1-N)</strong>
                     <br>
-                    <small>💡 สังเกตการกระจุกตัวของคะแนนในพรรคที่ได้เบอร์ 1-9 (สีส้ม) เทียบกับพรรคเบอร์สองหลัก (สีเทา)</small>
+                    <small>💡 สังเกตการกระจุกตัวของคะแนนในพรรคที่ได้เบอร์ 1-15 (สีส้ม) เทียบกับพรรคเบอร์สองหลัก (สีเทา)</small>
+                </p>
+                <p class="card-text text-secondary mb-4">
+                    <small>หมายเลข 6, 9, 11, 27, 33, 37, 42, 46 ถูกละเว้นจากกลุ่มเลขนำโชค เนื่องจากเป็นพรรคใหญ่ฐานเสียงมาก</small>
                 </p>
                 <div style="height: 400px;">
                     <canvas id="luckyNumberChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ratio Analysis Section -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header">
+                <h4 class="mb-0">📈 ปรากฏการณ์ 100 เท่า (The 100x Multiplier)</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-secondary mb-4">
+                    เปรียบเทียบ <strong>คะแนนบัญชีรายชื่อ (PL)</strong> vs <strong>คะแนนเขต (MP)</strong> ของพรรคกลุ่ม Lucky Number (เบอร์ 1-15)
+                    <br>
+                    <small>💡 สังเกตว่าพรรคเหล่านี้ได้คะแนน "ฟรี" จากบัญชีรายชื่อมากกว่าคะแนนจริงในเขตหลายเท่าตัว (ค่าเฉลี่ย 8.2 เท่า)</small>
+                </p>
+                <div style="height: 400px;">
+                    <canvas id="ratioChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forgotten Candidates Section (New) -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-warning-subtle">
+                <h4 class="mb-0 text-dark">😢 ผู้สมัครที่ถูกลืม (MP น้อย / Party PL เยอะ)</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-secondary mb-3">
+                    ตารางแสดงรายชื่อผู้สมัคร ส.ส. ที่ได้คะแนนน้อยมาก แต่พรรคกลับได้คะแนนบัญชีรายชื่อถล่มทลายในเขตเดียวกัน 
+                    (เข้าข่ายสมมติฐาน: คนกาเบอร์พรรคตามเบอร์ผู้ชนะเขตอื่น โดยไม่ได้ตั้งใจเลือกพรรคนี้จริงๆ)
+                    <br>
+                    <small>📌 คัดเฉพาะเขตที่มีผู้สมัครจริง (MP Vote > 0) เรียงตามอัตราส่วนความผิดปกติ (Ratio)</small>
+                </p>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="forgottenTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>พื้นที่ (เขต)</th>
+                                <th>พรรคแฝด (เบอร์)</th>
+                                <th class="text-end">คะแนน ส.ส. (MP)</th>
+                                <th class="text-end">คะแนนพรรค (PL)</th>
+                                <th class="text-end">เท่าตัว (Multiplier)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- JS populated -->
+                        </tbody>
+                    </table>
+                    <div class="text-center mt-3">
+                        <button class="btn btn-outline-primary btn-sm" id="btnShowMoreForgotten">แสดงเพิ่มเติม</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -270,8 +345,8 @@
             </div>
             <div class="card-footer bg-white">
                 <div class="d-flex align-items-center justify-content-center small text-secondary gap-3">
-                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#ffeda0;margin-right:4px;border:1px solid #ccc"></span> น้อย</span>
-                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#feb24c;margin-right:4px;border:1px solid #ccc"></span> ปานกลาง</span>
+                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#BCE784;margin-right:4px;border:1px solid #ccc"></span> น้อย</span>
+                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#FFD60A;margin-right:4px;border:1px solid #ccc"></span> ปานกลาง</span>
                     <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#f03b20;margin-right:4px;border:1px solid #ccc"></span> สูง</span>
                     <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#800026;margin-right:4px;border:1px solid #ccc"></span> สูงมาก</span>
                 </div>
@@ -509,9 +584,9 @@
                d > 10000 ? '#E31A1C' :
                d > 5000  ? '#FC4E2A' :
                d > 2000  ? '#FD8D3C' :
-               d > 1000  ? '#FEB24C' :
-               d > 0     ? '#FED976' :
-                           '#FFEDA0';
+               d > 1000  ? '#FFD60A' : // Yellow-ish
+               d > 0     ? '#BCE784' : // Green-ish
+                           '#E6F5D0';
     }
 
     async function loadData() {
@@ -555,6 +630,8 @@
             
             // Render Lucky Number Chart
             renderLuckyNumberChart(nationwideData.raw_parties);
+            renderRatioChart(nationwideData.raw_parties);
+            renderForgottenCandidates(allAnomalies);
 
             // Init Map (Non-blocking)
             initMap(provinceData.province_stats);
@@ -786,7 +863,7 @@
         });
 
         const sortedParties = Object.values(partyStats).sort((a,b) => b.votes - a.votes);
-        const top5 = sortedParties.slice(0, 5);
+        const top5 = sortedParties.slice(0, 10);
         const tableBody = document.querySelector('#partySummaryTable tbody');
         
         // Clear existing rows if any
@@ -1073,7 +1150,7 @@
 
     function renderLuckyNumberChart(parties) {
         // Exclude specific large parties to see the baseline trend better
-        const excludedNumbers = [9, 27, 37, 46];
+        const excludedNumbers = [6, 9, 11, 27, 33, 37, 42, 46];
         const filteredParties = parties.filter(p => !excludedNumbers.includes(p.party_number));
 
         // Sort by Party Number
@@ -1115,7 +1192,7 @@
                 },
                 scales: {
                     x: {
-                        title: { display: true, text: 'หมายเลขพรรค (ยกเว้นพรรคใหญ่: 9, 27, 37, 46)' },
+                        title: { display: true, text: 'หมายเลขพรรค (ยกเว้นพรรคใหญ่: 9, 11, 27, 37, 46)' },
                         grid: { display: false }
                     },
                     y: {
@@ -1125,6 +1202,149 @@
                 }
             }
         });
+    }
+
+    function renderRatioChart(parties) {
+        // Filter for Lucky Number Group (1-15) excluding big ones (6, 9, 11)
+        const targetParties = parties.filter(p => 
+            p.party_number >= 1 && 
+            p.party_number <= 15 && 
+            ![6, 9, 11].includes(p.party_number)
+        );
+        targetParties.sort((a,b) => a.party_number - b.party_number);
+
+        const labels = targetParties.map(p => `เบอร์ ${p.party_number}`);
+        const plData = targetParties.map(p => p.pl_total_votes);
+        const mpData = targetParties.map(p => p.mp_total_votes);
+
+        new Chart(document.getElementById('ratioChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'คะแนนบัญชีรายชื่อ (PL)',
+                        data: plData,
+                        backgroundColor: '#fca311', // Orange
+                        borderRadius: 2
+                    },
+                    {
+                        label: 'คะแนนเขต (MP)',
+                        data: mpData,
+                        backgroundColor: '#14213d', // Navy
+                        borderRadius: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                         callbacks: {
+                            afterBody: (items) => {
+                                const idx = items[0].dataIndex;
+                                const p = targetParties[idx];
+                                const pInfo = getPartyInfo(p.party_code);
+                                return [
+                                    `พรรค: ${pInfo.name}`,
+                                    `อัตราส่วน (PL/MP): ${p.ratio} เท่า`
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'คะแนนเสียง (Votes)' }
+                    },
+                     x: {
+                        title: { display: true, text: 'พรรคเบอร์ 1-15' }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderForgottenCandidates(anomalies) {
+        // Filter criteria:
+        // 1. Has real MP candidate (mp_twin_candidate_votes > 0)
+        // 2. High ratio (PL >> MP)
+        
+        const candidates = anomalies.filter(a => a.mp_twin_candidate_votes > 0);
+        
+        // Calculate Ratio on the fly
+        candidates.forEach(c => {
+            c._ratio = c.pl_twin_votes / c.mp_twin_candidate_votes;
+        });
+
+        // Filter ratio > 1.5
+        const ratioThreshold = 1.5;
+        const filteredCandidates = candidates.filter(c => c._ratio >= ratioThreshold);
+
+        // Sort by Ratio DESC
+        filteredCandidates.sort((a,b) => b._ratio - a._ratio);
+
+        const tbody = document.querySelector('#forgottenTable tbody');
+        tbody.innerHTML = '';
+
+        const initialShow = 10;
+        
+        const renderRows = (limit) => {
+            tbody.innerHTML = '';
+            filteredCandidates.slice(0, limit).forEach(c => {
+                const twinPInfo = getPartyInfo(c.pl_twin_party);
+                
+                const ratioClass = c._ratio > 50 ? 'text-danger fw-bold' : (c._ratio > 10 ? 'text-warning fw-bold' : '');
+                
+                const tr = `<tr>
+                    <td>
+                        <div class="fw-bold">${getProvinceName(c.area_code)}</div>
+                        <span class="small text-muted">รหัส ${c.area_code}</span>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="img/${c.pl_twin_party}.webp" class="party-logo-sm me-2" onerror="this.style.display='none'">
+                            <div>
+                                <div class="fw-bold">${twinPInfo.name}</div>
+                                <span class="badge bg-secondary">เบอร์ ${c.mp_winner_number}</span> 
+                                <span class="small text-muted ms-1">(ตรงผู้ชนะ)</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-end">
+                        <div class="text-muted fw-bold">${c.mp_twin_candidate_votes.toLocaleString()}</div>
+                    </td>
+                    <td class="text-end">
+                        <div class="text-primary fw-bold">${c.pl_twin_votes.toLocaleString()}</div>
+                    </td>
+                    <td class="text-end">
+                        <span class="${ratioClass}">${c._ratio.toFixed(1)}x</span>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += tr;
+            });
+        };
+
+        renderRows(initialShow);
+
+        // Handle button
+        const btn = document.getElementById('btnShowMoreForgotten');
+        if (candidates.length <= initialShow) {
+            btn.style.display = 'none';
+        } else {
+            btn.onclick = () => {
+                if(btn.innerText === 'แสดงเพิ่มเติม') {
+                    renderRows(50); // Show top 50
+                    btn.innerText = 'ย่อรายการ';
+                } else {
+                    renderRows(initialShow);
+                    btn.innerText = 'แสดงเพิ่มเติม';
+                }
+            };
+        }
     }
 
 

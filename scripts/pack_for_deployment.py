@@ -9,13 +9,9 @@ def pack_site():
     data_dir = root_dir / "data"
     
     # Files to copy from data/ to docs/data/
-    data_files = [
-        "anomaly_report.json",
-        "province_stats.json",
-        "mp_party_stats.json",
-        "party_comparison_stats.json",
-        "nationwide_party_stats.json"
-    ]
+    # Note: Stats files are now generated directly to docs/data/
+    # This list is now empty or reserved for static assets in data/ root if any
+    data_files = []
     
     # Ensure docs directory exists
     if not docs_dir.exists():

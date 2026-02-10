@@ -2,6 +2,8 @@ import requests
 import time
 import json
 import os
+from pathlib import Path
+from typing import Union, List, Optional, Any
 
 # Configuration
 # Note: Change timestamp part (2026-02-09-19-03-03-086) to fetch updated data
@@ -13,9 +15,17 @@ HEADERS = {
     "Referer": "https://www.thaipbs.or.th/"
 }
 
-def fetch_json_data(endpoint_type, area_code):
+# Type alias for clarity
+FetchResult = Union[List[dict], str, None]
+
+def fetch_json_data(endpoint_type: str, area_code: int) -> FetchResult:
     """
     Fetches JSON data for either 'mp' (constituency) or 'pl' (party-list).
+    
+    Returns:
+        list: The 'entries' list if successful.
+        None: If the server returns 403/non-200 (indicating invalid area).
+        "ERROR": If an exception occurs.
     """
     if endpoint_type == "mp":
         url = f"https://election69-data.thaipbs.or.th/result-ect-unofficial-constituency/{TIMESTAMP_VERSION}/areas/AREA-{area_code}.json"
@@ -36,19 +46,18 @@ def fetch_json_data(endpoint_type, area_code):
         print(f"Error fetching {endpoint_type.upper()} for Area {area_code}: {e}")
         return "ERROR"
 
-def save_to_json(data_type, area_code, entries):
+def save_to_json(data_type: str, area_code: int, entries: List[dict]) -> bool:
     """
-    Saves entries inside an object wrapper to data/{data_type}/{area_code}.json
+    Saves entries inside an object wrapper to rawdata/{data_type}/{area_code}.json
     """
-    directory = f"data/{data_type}"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    directory = Path(f"rawdata/{data_type}")
+    directory.mkdir(parents=True, exist_ok=True)
     
-    filepath = os.path.join(directory, f"{area_code}.json")
+    filepath = directory / f"{area_code}.json"
     
     # WRAPPER: Wrap the list in a dictionary {}
     data_to_save = {
-        "area_code": area_code,
+        "area_code": str(area_code),
         "entries": entries
     }
     
