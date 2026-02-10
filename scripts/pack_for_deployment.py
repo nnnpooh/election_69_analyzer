@@ -8,10 +8,9 @@ def pack_site():
     docs_dir = root_dir / "docs"
     data_dir = root_dir / "data"
     
-    # Files to copy from data/ to docs/data/
-    # Note: Stats files are now generated directly to docs/data/
-    # This list is now empty or reserved for static assets in data/ root if any
-    data_files = []
+    # Files to copy from rawdata/ to docs/data/
+    rawdata_files = ["focused-area.json"]
+    rawdata_dir = root_dir / "rawdata"
     
     # Ensure docs directory exists
     if not docs_dir.exists():
@@ -21,15 +20,16 @@ def pack_site():
     docs_data_dir = docs_dir / "data"
     if not docs_data_dir.exists():
         docs_data_dir.mkdir()
-        
-    for filename in data_files:
-        src = data_dir / filename
+    
+    # Copy from rawdata
+    for filename in rawdata_files:
+        src = rawdata_dir / filename
         dst = docs_data_dir / filename
         if src.exists():
             shutil.copy2(src, dst)
             print(f"✅ Copied {filename} to {docs_data_dir}/")
         else:
-            print(f"⚠️  Warning: Source file {src} not found")
+            print(f"⚠️ Source file not found: {src}")
 
     # Create .nojekyll
     (docs_dir / ".nojekyll").touch()

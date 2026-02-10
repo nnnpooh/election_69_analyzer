@@ -161,6 +161,20 @@
             </div>
         </div>
 
+        <!-- Area Filter -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="d-flex align-items-center gap-3 bg-white p-3 rounded shadow-sm border-start border-4 border-warning">
+                    <span class="fs-4">🎯</span>
+                    <label for="areaFilterSelect" class="fw-bold mb-0 text-nowrap">เลือกกลุ่มพื้นที่ (Focus Group):</label>
+                    <select class="form-select" id="areaFilterSelect" onchange="applyAreaFilter()">
+                        <option value="">ทั้งหมด (All Data)</option>
+                    </select>
+                    <span class="text-secondary small ms-2" id="filterCountBadge"></span>
+                </div>
+            </div>
+        </div>
+
         <!-- Hypothesis Section -->
         <div class="card shadow-sm mb-5">
             <div class="card-header">
@@ -459,6 +473,7 @@
 
 <script>
     let allAnomalies = [];
+    let originalAnomalies = [];
     let displayedCount = 0;
     const ITEMS_PER_PAGE = 20;
     
@@ -589,17 +604,26 @@
                            '#E6F5D0';
     }
 
+    let focusedAreas = null;
+
     async function loadData() {
         try {
-            const [reportRes, provinceRes, mpPartyRes, comparisonRes, commonRes, partyRes, nationwideRes] = await Promise.all([
+            const [reportRes, provinceRes, mpPartyRes, comparisonRes, commonRes, partyRes, nationwideRes, focusedRes] = await Promise.all([
                 fetch('data/anomaly_report.json'),
                 fetch('data/province_stats.json'),
                 fetch('data/mp_party_stats.json'),
                 fetch('data/party_comparison_stats.json'),
                 fetch('data/common-data.json'),
                 fetch('data/party-data.json'),
-                fetch('data/nationwide_party_stats.json')
+                fetch('data/nationwide_party_stats.json'),
+                fetch('data/focused-area.json')
             ]);
+            
+            // Check if focused-area exists (it might not on old deployments)
+            if (focusedRes.ok) {
+                focusedAreas = await focusedRes.json();
+                initFilterDropdown();
+            }
 
             const reportData = await reportRes.json();
             const provinceData = await provinceRes.json();
@@ -621,7 +645,9 @@
             processCommonData(commonData);
             processPartyData(partyData);
 
-            allAnomalies = reportData.anomalies;
+            originalAnomalies = reportData.anomalies;
+            allAnomalies = [...originalAnomalies];
+
             renderDashboard(reportData);
             renderAggregations(combinedData);
             renderComparison(comparisonData.comparison_stats);
@@ -640,6 +666,66 @@
             console.error('Error loading data:', error);
             document.body.innerHTML += `<p style="color:red">เกิดข้อผิดพลาดในการโหลดข้อมูล (โปรดตรวจสอบว่าไฟล์ JSON ทั้งหมดมีอยู่จริง)</p>`;
         }
+    }
+
+    function initFilterDropdown() {
+        if (!focusedAreas || !focusedAreas.groups) return;
+        
+        const select = document.getElementById('areaFilterSelect');
+        const tagNames = {
+            "hot-area": "🔥 พื้นที่เดือด (Hot Areas)",
+            "mueang": "🏙️ อำเภอเมือง (Mueang Districts)",
+            "powerhouse": "⚡ บ้านใหญ่/ตระกูลดัง (Powerhouses)",
+            "thailand-cambodia-border": "🇰🇭 ชายแดนไทย-กัมพูชา",
+            "three-southern-border": "🕌 3 จังหวัดชายแดนใต้"
+        };
+
+        focusedAreas.groups.forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g.tag;
+            opt.textContent = tagNames[g.tag] || g.tag;
+            select.appendChild(opt);
+        });
+    }
+
+    function applyAreaFilter() {
+        const tag = document.getElementById('areaFilterSelect').value;
+        const countBadge = document.getElementById('filterCountBadge');
+        
+        // 1. Filter Data
+        if (!tag) {
+            allAnomalies = [...originalAnomalies];
+            countBadge.innerText = '';
+        } else {
+            const group = focusedAreas.groups.find(g => g.tag === tag);
+            if (group) {
+                // Focused Area uses 'AREA-1001', Anomaly uses '1001'
+                const codes = new Set(group.areaCodes.map(c => c.replace('AREA-', '')));
+                allAnomalies = originalAnomalies.filter(a => codes.has(a.area_code));
+                countBadge.innerText = `(${allAnomalies.length} เขต)`;
+            }
+        }
+
+        // 2. Reset Canvases for Dashboard Charts (Brute force destroy to prevent Chart.js overlap)
+        ['topAreaChart', 'numberDistChart', 'correlationChart'].forEach(id => {
+             const oldCanvas = document.getElementById(id);
+             if (oldCanvas) {
+                 const parent = oldCanvas.parentNode;
+                 const newCanvas = document.createElement('canvas');
+                 newCanvas.id = id;
+                 oldCanvas.remove();
+                 parent.appendChild(newCanvas);
+             }
+        });
+
+        // 3. Reset Table
+        document.querySelector('#anomalyTable tbody').innerHTML = '';
+        displayedCount = 0;
+
+        // 4. Re-render
+        renderDashboard({ anomalies: allAnomalies });
+        renderPartySummary(allAnomalies);
+        renderTableBatch();
     }
 
     function processCommonData(data) {
