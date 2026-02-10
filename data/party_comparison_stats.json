@@ -62,6 +62,60 @@
       "diff": 712.91,
       "twin_area_count": 13,
       "non_twin_area_count": 387
+    },
+    {
+      "party_code": "PARTY-0010",
+      "party_number": "10",
+      "avg_twin_votes": 667.0,
+      "avg_non_twin_votes": 389.68,
+      "diff": 277.32,
+      "twin_area_count": 3,
+      "non_twin_area_count": 397
+    },
+    {
+      "party_code": "PARTY-0011",
+      "party_number": "11",
+      "avg_twin_votes": 2204.0,
+      "avg_non_twin_votes": 2615.69,
+      "diff": -411.69,
+      "twin_area_count": 2,
+      "non_twin_area_count": 398
+    },
+    {
+      "party_code": "PARTY-0012",
+      "party_number": "12",
+      "avg_twin_votes": 704.0,
+      "avg_non_twin_votes": 424.69,
+      "diff": 279.31,
+      "twin_area_count": 1,
+      "non_twin_area_count": 399
+    },
+    {
+      "party_code": "PARTY-0013",
+      "party_number": "13",
+      "avg_twin_votes": 0,
+      "avg_non_twin_votes": 455.64,
+      "diff": -455.64,
+      "twin_area_count": 0,
+      "non_twin_area_count": 400
+    },
+    {
+      "party_code": "PARTY-0014",
+      "party_number": "14",
+      "avg_twin_votes": 76.0,
+      "avg_non_twin_votes": 111.51,
+      "diff": -35.51,
+      "twin_area_count": 1,
+      "non_twin_area_count": 399
+    },
+    {
+      "party_code": "PARTY-0015",
+      "party_number": "15",
+      "avg_twin_votes": 235.2,
+      "avg_non_twin_votes": 67.05,
+      "diff": 168.15,
+      "twin_area_count": 5,
+      "non_twin_area_count": 395
     }
   ]
 }

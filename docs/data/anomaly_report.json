@@ -1,8 +1,8 @@
 {
   "metadata": {
     "description": "Anomaly detection report based on Twin Number Hypothesis (Buy 1 Get 2)",
-    "criteria": "Winner MP Number (1-9, excl 6,9) matches Top 7 Party List Number (Different Party)",
-    "total_areas_flagged": 251
+    "criteria": "Winner MP Number (1-15, excl 6,9) matches Top 7 Party List Number (Different Party)",
+    "total_areas_flagged": 253
   },
   "anomalies": [
     {
@@ -1551,6 +1551,23 @@
       "avg_non_twin_votes": 684.87,
       "excess_votes": 2255.13,
       "pct_increase": 329.3
+    },
+    {
+      "area_code": "1105",
+      "mp_winner_number": "11",
+      "mp_winner_party": "PARTY-0046",
+      "mp_votes": 50599,
+      "pl_twin_party": "PARTY-0011",
+      "pl_twin_rank": 5,
+      "pl_twin_votes": 2924,
+      "mp_twin_candidate_votes": 0,
+      "ratio_pl_to_mp": 0.0578,
+      "anomaly_score": 2924,
+      "province_id": "11",
+      "province_name": "สมุทรปราการ",
+      "avg_non_twin_votes": 2615.69,
+      "excess_votes": 308.31,
+      "pct_increase": 11.8
     },
     {
       "area_code": "4004",
@@ -3829,6 +3846,23 @@
       "avg_non_twin_votes": 509.65,
       "excess_votes": 997.35,
       "pct_increase": 195.7
+    },
+    {
+      "area_code": "1033",
+      "mp_winner_number": "11",
+      "mp_winner_party": "PARTY-0046",
+      "mp_votes": 31456,
+      "pl_twin_party": "PARTY-0011",
+      "pl_twin_rank": 6,
+      "pl_twin_votes": 1484,
+      "mp_twin_candidate_votes": 1490,
+      "ratio_pl_to_mp": 0.0472,
+      "anomaly_score": 1484,
+      "province_id": "10",
+      "province_name": "กรุงเทพมหานคร",
+      "avg_non_twin_votes": 2615.69,
+      "excess_votes": -1131.69,
+      "pct_increase": -43.3
     },
     {
       "area_code": "8403",

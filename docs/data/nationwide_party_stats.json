@@ -1,0 +1,321 @@
+{
+  "groups": {
+    "A": {
+      "total": 3814035,
+      "average": 293387.3076923077,
+      "count": 13
+    },
+    "B": {
+      "total": 5852635,
+      "average": 2926317.5,
+      "count": 2
+    },
+    "C": {
+      "total": 22260978,
+      "average": 494688.4,
+      "count": 45
+    }
+  },
+  "raw_parties": [
+    {
+      "party_number": 1,
+      "party_code": "PARTY-0001",
+      "total_votes": 284761
+    },
+    {
+      "party_number": 2,
+      "party_code": "PARTY-0002",
+      "total_votes": 628493
+    },
+    {
+      "party_number": 3,
+      "party_code": "PARTY-0003",
+      "total_votes": 294239
+    },
+    {
+      "party_number": 4,
+      "party_code": "PARTY-0004",
+      "total_votes": 230170
+    },
+    {
+      "party_number": 5,
+      "party_code": "PARTY-0005",
+      "total_votes": 403671
+    },
+    {
+      "party_number": 6,
+      "party_code": "PARTY-0006",
+      "total_votes": 705035
+    },
+    {
+      "party_number": 7,
+      "party_code": "PARTY-0007",
+      "total_votes": 108235
+    },
+    {
+      "party_number": 8,
+      "party_code": "PARTY-0008",
+      "total_votes": 237672
+    },
+    {
+      "party_number": 9,
+      "party_code": "PARTY-0009",
+      "total_votes": 5147600
+    },
+    {
+      "party_number": 10,
+      "party_code": "PARTY-0010",
+      "total_votes": 156704
+    },
+    {
+      "party_number": 11,
+      "party_code": "PARTY-0011",
+      "total_votes": 1045452
+    },
+    {
+      "party_number": 12,
+      "party_code": "PARTY-0012",
+      "total_votes": 170156
+    },
+    {
+      "party_number": 13,
+      "party_code": "PARTY-0013",
+      "total_votes": 182255
+    },
+    {
+      "party_number": 14,
+      "party_code": "PARTY-0014",
+      "total_votes": 44567
+    },
+    {
+      "party_number": 15,
+      "party_code": "PARTY-0015",
+      "total_votes": 27660
+    },
+    {
+      "party_number": 16,
+      "party_code": "PARTY-0016",
+      "total_votes": 66966
+    },
+    {
+      "party_number": 17,
+      "party_code": "PARTY-0017",
+      "total_votes": 48695
+    },
+    {
+      "party_number": 18,
+      "party_code": "PARTY-0018",
+      "total_votes": 10842
+    },
+    {
+      "party_number": 19,
+      "party_code": "PARTY-0019",
+      "total_votes": 18357
+    },
+    {
+      "party_number": 20,
+      "party_code": "PARTY-0020",
+      "total_votes": 12264
+    },
+    {
+      "party_number": 21,
+      "party_code": "PARTY-0021",
+      "total_votes": 152414
+    },
+    {
+      "party_number": 22,
+      "party_code": "PARTY-0022",
+      "total_votes": 16398
+    },
+    {
+      "party_number": 23,
+      "party_code": "PARTY-0023",
+      "total_votes": 26447
+    },
+    {
+      "party_number": 24,
+      "party_code": "PARTY-0024",
+      "total_votes": 40467
+    },
+    {
+      "party_number": 25,
+      "party_code": "PARTY-0025",
+      "total_votes": 13068
+    },
+    {
+      "party_number": 26,
+      "party_code": "PARTY-0026",
+      "total_votes": 33892
+    },
+    {
+      "party_number": 27,
+      "party_code": "PARTY-0027",
+      "total_votes": 3651026
+    },
+    {
+      "party_number": 28,
+      "party_code": "PARTY-0028",
+      "total_votes": 46691
+    },
+    {
+      "party_number": 29,
+      "party_code": "PARTY-0029",
+      "total_votes": 226040
+    },
+    {
+      "party_number": 30,
+      "party_code": "PARTY-0030",
+      "total_votes": 50778
+    },
+    {
+      "party_number": 31,
+      "party_code": "PARTY-0031",
+      "total_votes": 65666
+    },
+    {
+      "party_number": 32,
+      "party_code": "PARTY-0032",
+      "total_votes": 52246
+    },
+    {
+      "party_number": 33,
+      "party_code": "PARTY-0033",
+      "total_votes": 401527
+    },
+    {
+      "party_number": 34,
+      "party_code": "PARTY-0034",
+      "total_votes": 55764
+    },
+    {
+      "party_number": 35,
+      "party_code": "PARTY-0035",
+      "total_votes": 63609
+    },
+    {
+      "party_number": 36,
+      "party_code": "PARTY-0036",
+      "total_votes": 56396
+    },
+    {
+      "party_number": 37,
+      "party_code": "PARTY-0037",
+      "total_votes": 5954535
+    },
+    {
+      "party_number": 38,
+      "party_code": "PARTY-0038",
+      "total_votes": 83941
+    },
+    {
+      "party_number": 39,
+      "party_code": "PARTY-0039",
+      "total_votes": 22187
+    },
+    {
+      "party_number": 40,
+      "party_code": "PARTY-0040",
+      "total_votes": 20517
+    },
+    {
+      "party_number": 41,
+      "party_code": "PARTY-0041",
+      "total_votes": 12624
+    },
+    {
+      "party_number": 42,
+      "party_code": "PARTY-0042",
+      "total_votes": 605936
+    },
+    {
+      "party_number": 43,
+      "party_code": "PARTY-0043",
+      "total_votes": 129951
+    },
+    {
+      "party_number": 44,
+      "party_code": "PARTY-0044",
+      "total_votes": 74748
+    },
+    {
+      "party_number": 45,
+      "party_code": "PARTY-0045",
+      "total_votes": 32114
+    },
+    {
+      "party_number": 46,
+      "party_code": "PARTY-0046",
+      "total_votes": 9777951
+    },
+    {
+      "party_number": 47,
+      "party_code": "PARTY-0047",
+      "total_votes": 57052
+    },
+    {
+      "party_number": 48,
+      "party_code": "PARTY-0048",
+      "total_votes": 185456
+    },
+    {
+      "party_number": 49,
+      "party_code": "PARTY-0049",
+      "total_votes": 99227
+    },
+    {
+      "party_number": 50,
+      "party_code": "PARTY-0050",
+      "total_votes": 5301
+    },
+    {
+      "party_number": 51,
+      "party_code": "PARTY-0051",
+      "total_votes": 16053
+    },
+    {
+      "party_number": 52,
+      "party_code": "PARTY-0052",
+      "total_votes": 8359
+    },
+    {
+      "party_number": 53,
+      "party_code": "PARTY-0053",
+      "total_votes": 5225
+    },
+    {
+      "party_number": 54,
+      "party_code": "PARTY-0054",
+      "total_votes": 8769
+    },
+    {
+      "party_number": 55,
+      "party_code": "PARTY-0055",
+      "total_votes": 7553
+    },
+    {
+      "party_number": 56,
+      "party_code": "PARTY-0056",
+      "total_votes": 23127
+    },
+    {
+      "party_number": 57,
+      "party_code": "PARTY-0057",
+      "total_votes": 20799
+    },
+    {
+      "party_number": 58,
+      "party_code": "PARTY-0058",
+      "total_votes": 0
+    },
+    {
+      "party_number": 59,
+      "party_code": "PARTY-0059",
+      "total_votes": 0
+    },
+    {
+      "party_number": 60,
+      "party_code": "PARTY-0060",
+      "total_votes": 0
+    }
+  ]
+}

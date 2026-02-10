@@ -13,7 +13,8 @@ def pack_site():
         "anomaly_report.json",
         "province_stats.json",
         "mp_party_stats.json",
-        "party_comparison_stats.json"
+        "party_comparison_stats.json",
+        "nationwide_party_stats.json"
     ]
     
     # Ensure docs directory exists

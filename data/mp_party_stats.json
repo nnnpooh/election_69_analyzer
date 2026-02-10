@@ -591,6 +591,33 @@
       ]
     },
     {
+      "party_code": "PARTY-0046",
+      "count": 4,
+      "total_ghost_votes": 8809,
+      "provinces": [
+        {
+          "name": "สมุทรปราการ",
+          "count": 1,
+          "votes": 2924
+        },
+        {
+          "name": "น่าน",
+          "count": 1,
+          "votes": 2480
+        },
+        {
+          "name": "ลำพูน",
+          "count": 1,
+          "votes": 1921
+        },
+        {
+          "name": "กรุงเทพมหานคร",
+          "count": 1,
+          "votes": 1484
+        }
+      ]
+    },
+    {
       "party_code": "PARTY-0033",
       "count": 4,
       "total_ghost_votes": 7428,
@@ -621,23 +648,6 @@
           "name": "สระแก้ว",
           "count": 1,
           "votes": 4108
-        }
-      ]
-    },
-    {
-      "party_code": "PARTY-0046",
-      "count": 2,
-      "total_ghost_votes": 4401,
-      "provinces": [
-        {
-          "name": "น่าน",
-          "count": 1,
-          "votes": 2480
-        },
-        {
-          "name": "ลำพูน",
-          "count": 1,
-          "votes": 1921
         }
       ]
     },

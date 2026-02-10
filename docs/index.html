@@ -9,6 +9,9 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -54,7 +57,7 @@
             margin: 0;
             font-weight: 600;
         }
-        .card-header .text-muted { color: rgba(255,255,255,0.7) !important; }
+        .card-header .text-muted { color: rgba(255,255,255,0.7); }
 
         .stat-card { transition: transform 0.2s; border-top: 5px solid var(--primary-color); }
         .stat-card:hover { transform: translateY(-5px); border-top-color: var(--accent-color); }
@@ -190,6 +193,40 @@
             </div>
         </div>
 
+        <!-- Correlation Section -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header">
+                <h4 class="mb-0">📈 ความสัมพันธ์: คะแนน ส.ส. เขต vs คะแนนพรรคแฝด</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-secondary mb-4">
+                    กราฟ Scatter Plot แสดงความสัมพันธ์ระหว่าง <strong>คะแนนที่ ส.ส. เขตได้รับ (แกน X)</strong> กับ <strong>คะแนนที่พรรคบัญชีรายชื่อเบอร์เดียวกันได้รับ (แกน Y)</strong> ในเขตนั้นๆ
+                    <br>
+                    <small>💡 หากมีการ "ซื้อเสียงแบบกาเบอร์เดียว" จริง จุดต่างๆ ควรจะเรียงตัวขึ้นไปในทิศทางเดียวกัน (ยิ่งคะแนน ส.ส. มาก คะแนนแฝดก็ยิ่งมากตาม)</small>
+                </p>
+                <div style="height: 500px;">
+                    <canvas id="correlationChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lucky Numbers Section -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header">
+                <h4 class="mb-0">🎱 อาถรรพ์ "เลขตัวเดียว" (Lucky Numbers)</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-secondary mb-4">
+                    กราฟแสดง <strong>คะแนนรวมทั้งประเทศ</strong> ของแต่ละพรรค เรียงตาม <strong>หมายเลขพรรค (1-N)</strong>
+                    <br>
+                    <small>💡 สังเกตการกระจุกตัวของคะแนนในพรรคที่ได้เบอร์ 1-9 (สีส้ม) เทียบกับพรรคเบอร์สองหลัก (สีเทา)</small>
+                </p>
+                <div style="height: 400px;">
+                    <canvas id="luckyNumberChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <!-- Comparison Section -->
         <div class="card shadow-sm mb-5">
             <div class="card-header">
@@ -219,6 +256,24 @@
                 </div>
                 <div class="text-center py-2 text-secondary small">
                     * พื้นที่แฝด = เขตที่ ส.ส. ผู้ชนะเป็นพรรคอื่น แต่มีเบอร์เดียวกับพรรคบัญชีรายชื่อนี้
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header">
+                <h4 class="mb-0">🗺️ แผนที่แสดงความผิดปกติรายจังหวัด</h4>
+            </div>
+            <div class="card-body p-0">
+                <div id="provinceMap" style="height: 500px; width: 100%; background: #fff;"></div>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="d-flex align-items-center justify-content-center small text-secondary gap-3">
+                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#ffeda0;margin-right:4px;border:1px solid #ccc"></span> น้อย</span>
+                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#feb24c;margin-right:4px;border:1px solid #ccc"></span> ปานกลาง</span>
+                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#f03b20;margin-right:4px;border:1px solid #ccc"></span> สูง</span>
+                    <span class="d-flex align-items-center"><span style="display:inline-block;width:12px;height:12px;background:#800026;margin-right:4px;border:1px solid #ccc"></span> สูงมาก</span>
                 </div>
             </div>
         </div>
@@ -350,15 +405,125 @@
         0: '#8338ec'  // Violet
     };
 
+    let map;
+    
+    // Mapping from GeoJSON English Name -> Province ID (Standard MOI Codes)
+    const geoNameMapping = {
+        "Bangkok Metropolis": "10", "Samut Prakan": "11", "Nonthaburi": "12", "Pathum Thani": "13", "Phra Nakhon Si Ayutthaya": "14",
+        "Ang Thong": "15", "Lop Buri": "16", "Sing Buri": "17", "Chai Nat": "18", "Saraburi": "19",
+        "Chon Buri": "20", "Rayong": "21", "Chanthaburi": "22", "Trat": "23", "Chachoengsao": "24",
+        "Prachin Buri": "25", "Nakhon Nayok": "26", "Sa Kaeo": "27",
+        "Nakhon Ratchasima": "30", "Buri Ram": "31", "Surin": "32", "Si Sa Ket": "33", "Ubon Ratchathani": "34",
+        "Yasothon": "35", "Chaiyaphum": "36", "Amnat Charoen": "37", "Bueng Kan": "38", "Nong Bua Lam Phu": "39",
+        "Khon Kaen": "40", "Udon Thani": "41", "Loei": "42", "Nong Khai": "43", "Maha Sarakham": "44",
+        "Roi Et": "45", "Kalasin": "46", "Sakon Nakhon": "47", "Nakhon Phanom": "48", "Mukdahan": "49",
+        "Chiang Mai": "50", "Lamphun": "51", "Lampang": "52", "Uttaradit": "53", "Phrae": "54",
+        "Nan": "55", "Phayao": "56", "Chiang Rai": "57", "Mae Hong Son": "58",
+        "Nakhon Sawan": "60", "Uthai Thani": "61", "Kamphaeng Phet": "62", "Tak": "63", "Sukhothai": "64",
+        "Phitsanulok": "65", "Phichit": "66", "Phetchabun": "67",
+        "Ratchaburi": "70", "Kanchanaburi": "71", "Suphan Buri": "72", "Nakhon Pathom": "73", "Samut Sakhon": "74",
+        "Samut Songkhram": "75", "Phetchaburi": "76", "Prachuap Khiri Khan": "77",
+        "Nakhon Si Thammarat": "80", "Krabi": "81", "Phangnga": "82", "Phuket": "83", "Surat Thani": "84",
+        "Ranong": "85", "Chumphon": "86",
+        "Songkhla": "90", "Satun": "91", "Trang": "92", "Phatthalung": "93", "Pattani": "94", "Yala": "95", "Narathiwat": "96"
+    };
+
+    async function initMap(provinceStatsArray) {
+        if (!document.getElementById('provinceMap')) return;
+
+        // Convert stats array to dictionary object for matching
+        // provinceStatsArray items look like: { id: "30", name: "...", total_ghost_votes: 1234 }
+        const statsMap = {};
+        provinceStatsArray.forEach(p => {
+            if (p.id) statsMap[p.id] = p;
+        });
+
+        // Initialize Leaflet
+        // Center on Thailand
+        map = L.map('provinceMap').setView([13.0, 101.5], 5);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        try {
+            const res = await fetch('https://raw.githubusercontent.com/apisit/thailand.json/master/thailand.json');
+            const geoData = await res.json();
+
+            // Create GeoJSON Layer
+            const provinceLayer = L.geoJson(geoData, {
+                style: (feature) => {
+                    const engName = feature.properties.name;
+                    const id = geoNameMapping[engName];
+                    const data = statsMap[id];
+                    const ghostVotes = data ? data.total_ghost_votes : 0;
+                    
+                    return {
+                        fillColor: getColor(ghostVotes),
+                        weight: 1,
+                        opacity: 1,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const engName = feature.properties.name;
+                    const id = geoNameMapping[engName];
+                    const data = statsMap[id];
+                    
+                    if (data) {
+                        layer.bindTooltip(`
+                            <div class="text-center">
+                                <strong>${data.name}</strong><br>
+                                <span class="text-danger">คะแนนผี: ${data.total_ghost_votes.toLocaleString()}</span><br>
+                                <span class="text-secondary small">(${data.count} เขตผิดปกติ)</span>
+                            </div>
+                        `);
+                        
+                        layer.on({
+                            mouseover: (e) => {
+                                const l = e.target;
+                                l.setStyle({ weight: 3, color: '#666', dashArray: '', fillOpacity: 0.9 });
+                                l.bringToFront();
+                            },
+                            mouseout: (e) => {
+                                provinceLayer.resetStyle(e.target);
+                            }
+                        });
+                    }
+                }
+            }).addTo(map);
+
+        } catch (e) {
+            console.error("Map Load Error", e);
+            document.getElementById('provinceMap').innerHTML = `<div class="d-flex justify-content-center align-items-center h-100 text-secondary">โหลดแผนที่ไม่ได้</div>`;
+        }
+    }
+
+    function getColor(d) {
+        return d > 30000 ? '#800026' :
+               d > 20000 ? '#BD0026' :
+               d > 10000 ? '#E31A1C' :
+               d > 5000  ? '#FC4E2A' :
+               d > 2000  ? '#FD8D3C' :
+               d > 1000  ? '#FEB24C' :
+               d > 0     ? '#FED976' :
+                           '#FFEDA0';
+    }
+
     async function loadData() {
         try {
-            const [reportRes, provinceRes, mpPartyRes, comparisonRes, commonRes, partyRes] = await Promise.all([
+            const [reportRes, provinceRes, mpPartyRes, comparisonRes, commonRes, partyRes, nationwideRes] = await Promise.all([
                 fetch('data/anomaly_report.json'),
                 fetch('data/province_stats.json'),
                 fetch('data/mp_party_stats.json'),
                 fetch('data/party_comparison_stats.json'),
                 fetch('data/common-data.json'),
-                fetch('data/party-data.json')
+                fetch('data/party-data.json'),
+                fetch('data/nationwide_party_stats.json')
             ]);
 
             const reportData = await reportRes.json();
@@ -367,6 +532,7 @@
             const comparisonData = await comparisonRes.json();
             const commonData = await commonRes.json();
             const partyData = await partyRes.json();
+            const nationwideData = await nationwideRes.json();
             
             // Merge for aggregations
             const combinedData = {
@@ -386,6 +552,13 @@
             renderComparison(comparisonData.comparison_stats);
             renderPartySummary(allAnomalies);
             renderTableBatch();
+            
+            // Render Lucky Number Chart
+            renderLuckyNumberChart(nationwideData.raw_parties);
+
+            // Init Map (Non-blocking)
+            initMap(provinceData.province_stats);
+            
         } catch (error) {
             console.error('Error loading data:', error);
             document.body.innerHTML += `<p style="color:red">เกิดข้อผิดพลาดในการโหลดข้อมูล (โปรดตรวจสอบว่าไฟล์ JSON ทั้งหมดมีอยู่จริง)</p>`;
@@ -800,7 +973,160 @@
                 } 
             }
         });
+
+        // 4. Render Correlation Scatter Plot
+        renderCorrelationChart(anomalies);
     }
+
+    function renderCorrelationChart(anomalies) {
+        const scatterData = anomalies.map(a => ({
+            x: a.mp_votes,
+            y: a.pl_twin_votes,
+            r: 5, // Radius
+            // Custom data for tooltip
+            _area: getProvinceName(a.area_code),
+            _number: a.mp_winner_number,
+            _mpParty: getPartyInfo(a.mp_winner_party).name,
+            _plParty: getPartyInfo(a.pl_twin_party).name
+        }));
+
+        // Calculate Linear Regression (Trend Line)
+        const n = scatterData.length;
+        let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+        scatterData.forEach(p => {
+            sumX += p.x;
+            sumY += p.y;
+            sumXY += p.x * p.y;
+            sumXX += p.x * p.x;
+        });
+
+        const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+        const intercept = (sumY - slope * sumX) / n;
+
+        // Generate points for line
+        const minX = Math.min(...scatterData.map(d => d.x));
+        const maxX = Math.max(...scatterData.map(d => d.x));
+        const trendData = [
+            { x: minX, y: slope * minX + intercept },
+            { x: maxX, y: slope * maxX + intercept }
+        ];
+
+        new Chart(document.getElementById('correlationChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: 'เขตที่มีความผิดปกติ',
+                        data: scatterData,
+                        backgroundColor: (ctx) => {
+                            const raw = ctx.raw;
+                            if(!raw) return '#666';
+                            return numberColors[raw._number] || '#666';
+                        },
+                        pointHoverRadius: 8
+                    },
+                    {
+                        type: 'line',
+                        label: 'แนวโน้ม (Trend Line)',
+                        data: trendData,
+                        borderColor: 'rgba(50, 50, 50, 0.5)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                const raw = ctx.raw;
+                                if(ctx.dataset.type === 'line') return `Trend`;
+                                return `${raw._area}: MP ${raw.x.toLocaleString()} vs PL ${raw.y.toLocaleString()}`;
+                            },
+                            afterLabel: (ctx) => {
+                                const raw = ctx.raw;
+                                if(ctx.dataset.type === 'line') return;
+                                return `เบอร์ ${raw._number} (MP: ${raw._mpParty} / PL: ${raw._plParty})`;
+                            }
+                        }
+                    },
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: { display: true, text: 'คะแนนที่ ส.ส. เขตได้รับ (MP Votes)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'คะแนนบัญชีรายชื่อ "หลงผิด" (Ghost Votes)' }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderLuckyNumberChart(parties) {
+        // Exclude specific large parties to see the baseline trend better
+        const excludedNumbers = [9, 27, 37, 46];
+        const filteredParties = parties.filter(p => !excludedNumbers.includes(p.party_number));
+
+        // Sort by Party Number
+        filteredParties.sort((a,b) => a.party_number - b.party_number);
+        
+        const labels = filteredParties.map(p => p.party_number);
+        const data = filteredParties.map(p => p.total_votes);
+        const bgColors = filteredParties.map(p => {
+            if (p.party_number <= 15) return '#fca311'; // Lucky Number (Accent) - Expanded to 1-15
+            return '#e5e5e5'; // Normal
+        });
+
+        new Chart(document.getElementById('luckyNumberChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'คะแนนบัญชีรายชื่อรวมทั้งประเทศ',
+                    data: data,
+                    backgroundColor: bgColors,
+                    borderRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: (item) => `เบอร์ ${item[0].label}`,
+                            label: (ctx) => {
+                                const p = filteredParties[ctx.dataIndex];
+                                const pInfo = getPartyInfo(p.party_code);
+                                return `${pInfo.name}: ${ctx.raw.toLocaleString()} คะแนน`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'หมายเลขพรรค (ยกเว้นพรรคใหญ่: 9, 27, 37, 46)' },
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'คะแนนรวม (Votes)' }
+                    }
+                }
+            }
+        });
+    }
+
 
     // Call loadData immediately
     loadData();

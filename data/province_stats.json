@@ -1835,6 +1835,26 @@
       "name": "อำนาจเจริญ"
     },
     {
+      "count": 2,
+      "total_ghost_votes": 4191,
+      "areas": [
+        {
+          "area_code": "1105",
+          "ghost_votes": 2924,
+          "mp_winner_party": "PARTY-0046",
+          "mp_number": "11"
+        },
+        {
+          "area_code": "1106",
+          "ghost_votes": 1267,
+          "mp_winner_party": "PARTY-0037",
+          "mp_number": "4"
+        }
+      ],
+      "id": "11",
+      "name": "สมุทรปราการ"
+    },
+    {
       "count": 3,
       "total_ghost_votes": 4134,
       "areas": [
@@ -2020,6 +2040,20 @@
     },
     {
       "count": 1,
+      "total_ghost_votes": 1484,
+      "areas": [
+        {
+          "area_code": "1033",
+          "ghost_votes": 1484,
+          "mp_winner_party": "PARTY-0046",
+          "mp_number": "11"
+        }
+      ],
+      "id": "10",
+      "name": "กรุงเทพมหานคร"
+    },
+    {
+      "count": 1,
       "total_ghost_votes": 1370,
       "areas": [
         {
@@ -2045,20 +2079,6 @@
       ],
       "id": "82",
       "name": "พังงา"
-    },
-    {
-      "count": 1,
-      "total_ghost_votes": 1267,
-      "areas": [
-        {
-          "area_code": "1106",
-          "ghost_votes": 1267,
-          "mp_winner_party": "PARTY-0037",
-          "mp_number": "4"
-        }
-      ],
-      "id": "11",
-      "name": "สมุทรปราการ"
     },
     {
       "count": 1,

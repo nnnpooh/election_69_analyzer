@@ -10,7 +10,7 @@ OUTPUT_ANOMALY_FILE = "data/anomaly_report.json"
 OUTPUT_PROVINCE_FILE = "data/province_stats.json"
 OUTPUT_MP_PARTY_FILE = "data/mp_party_stats.json"
 OUTPUT_COMPARISON_FILE = "data/party_comparison_stats.json"
-SINGLE_DIGIT_RANGE = [str(i) for i in range(1, 10)] 
+TARGET_NUMBER_RANGE = [str(i) for i in range(1, 16)] 
 EXCLUDED_PARTIES = ["6", "9"] 
 
 def load_province_map():
@@ -43,18 +43,6 @@ def get_candidate_number_str(candidate_code, area_code):
             return None
     return None
 
-    """
-    Extracts candidate number string from code, e.g., 'CANDIDATE-MP-100105' -> '5'
-    """
-    prefix = f"CANDIDATE-MP-{area_code}"
-    if candidate_code and candidate_code.startswith(prefix):
-        raw_num = candidate_code[len(prefix):]
-        try:
-            return str(int(raw_num))
-        except ValueError:
-            return None
-    return None
-
 def main():
     print(f"Scanning data from {MP_DIR} and {PL_DIR}...")
     
@@ -70,7 +58,7 @@ def main():
     # Initialize Comparison Stats: Track votes for targeted parties
     # Structure: { "PARTY-000X": { "twin_votes": [], "non_twin_votes": [] } }
     comparison_stats = {}
-    target_numbers = [n for n in SINGLE_DIGIT_RANGE if n not in EXCLUDED_PARTIES]
+    target_numbers = [n for n in TARGET_NUMBER_RANGE if n not in EXCLUDED_PARTIES]
     for n in target_numbers:
         pid = f"PARTY-{int(n):04d}"
         comparison_stats[pid] = {"twin_votes": [], "non_twin_votes": [], "number": n}
@@ -152,13 +140,13 @@ def main():
             ratio = pl_votes / base_votes
             
             # 5. Filter for Reporting
-            # Condition A: Winner number is 1-9 (excluding 6, 9)
+            # Condition A: Winner number is 1-15 (excluding 6, 9)
             # Condition B: The Twin Party ranks high (Top 7) OR The Twin Party gets significant votes
             
-            is_single_digit = winner_num_str in SINGLE_DIGIT_RANGE
+            is_in_target_range = winner_num_str in TARGET_NUMBER_RANGE
             is_excluded = winner_num_str in EXCLUDED_PARTIES
             
-            if is_single_digit and not is_excluded:
+            if is_in_target_range and not is_excluded:
                 # Calculate simple anomaly score:
                 # How much did the "Twin Party" overperform expectations?
                 # Expectation: Twin Party (often small) shouldn't be in Top 7 ifMP Winner is from a different party.
@@ -281,7 +269,7 @@ def main():
     anomaly_data = {
         "metadata": {
             "description": "Anomaly detection report based on Twin Number Hypothesis (Buy 1 Get 2)",
-            "criteria": "Winner MP Number (1-9, excl 6,9) matches Top 7 Party List Number (Different Party)",
+            "criteria": "Winner MP Number (1-15, excl 6,9) matches Top 7 Party List Number (Different Party)",
             "total_areas_flagged": len(anomalies)
         },
         "anomalies": anomalies
