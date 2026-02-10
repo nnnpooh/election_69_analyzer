@@ -113,6 +113,10 @@ def main():
         # 2. Extract Winner Stats
         winner_party_code = winner.get("partyCode", "")
         winner_votes = winner.get("voteTotal", 0)
+
+        # Get Winner Party's PL Votes in this area
+        winner_pl_entry = next((e for e in pl_entries if e.get("partyCode") == winner_party_code), None)
+        winner_pl_votes = winner_pl_entry.get("voteTotal", 0) if winner_pl_entry else 0
         
         # 3. Check "Twin Party" in Party List
         # Construct the target party ID: e.g. winner #5 -> "PARTY-0005"
@@ -167,6 +171,7 @@ def main():
                         "mp_winner_number": winner_num_str,
                         "mp_winner_party": winner_party_code,
                         "mp_votes": winner_votes,
+                        "mp_winner_pl_votes": winner_pl_votes,
                         "pl_twin_party": target_party_id,
                         "pl_twin_rank": pl_rank,
                         "pl_twin_votes": pl_votes,

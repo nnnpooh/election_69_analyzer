@@ -316,6 +316,35 @@
             </div>
         </div>
 
+        <!-- MP wins, but PL was too low -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-danger-subtle">
+                <h4 class="mb-0 text-dark">⚠️ เขตที่ผู้ชนะ "คะแนนพรรคต่ำกว่าพรรคแฝด"</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-secondary mb-3">
+                    แสดงเขตที่ <strong>พรรคของผู้ที่ชนะ ส.ส. เขต</strong> กลับได้คะแนนบัญชีรายชื่อ (Party List) <strong>น้อยกว่า</strong> พรรคแฝดที่มีเบอร์เดียวกับผู้ชนะ
+                    <br>
+                    <small>📌 บ่งชี้ว่าคนอาจจะตั้งใจกาให้พรรคของผู้ชนะ แต่กาผิดไปกาพรรคแฝดแทน ทำให้พรรคตัวจริงเสียคะแนน</small>
+                </p>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="weakWinnerTable">
+                        <thead>
+                            <tr>
+                                <th>เขตเลือกตั้ง</th>
+                                <th>ผู้ชนะ (MP)</th>
+                                <th class="text-end">คะแนนผู้ชนะ (MP)</th>
+                                <th class="text-end">คะแนนพรรคผู้ชนะ (PL)</th>
+                                <th class="text-end">คะแนนพรรคแฝด (PL)</th>
+                                <th class="text-end">ผลต่าง (Lost Votes?)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Comparison Section -->
         <div class="card shadow-sm mb-5">
             <div class="card-header">
@@ -658,6 +687,7 @@
             renderLuckyNumberChart(nationwideData.raw_parties);
             renderRatioChart(nationwideData.raw_parties);
             renderForgottenCandidates(allAnomalies);
+            renderWeakWinnerPL(allAnomalies);
 
             // Init Map (Non-blocking)
             initMap(provinceData.province_stats);
@@ -725,6 +755,8 @@
         // 4. Re-render
         renderDashboard({ anomalies: allAnomalies });
         renderPartySummary(allAnomalies);
+        renderForgottenCandidates(allAnomalies);
+        renderWeakWinnerPL(allAnomalies);
         renderTableBatch();
     }
 
@@ -1431,6 +1463,47 @@
                 }
             };
         }
+    }
+
+    function renderWeakWinnerPL(anomalies) {
+        // Filter: Twin PL Votes > Winner PL Votes
+        // We need mp_winner_pl_votes. If data is old, this might be undefined, so handle fallback
+        const weakWinners = anomalies.filter(a => (a.mp_winner_pl_votes || 0) > 0 && a.pl_twin_votes > a.mp_winner_pl_votes);
+        
+        // Sort by diff
+        weakWinners.sort((a,b) => (b.pl_twin_votes - b.mp_winner_pl_votes) - (a.pl_twin_votes - a.mp_winner_pl_votes));
+        
+        const tbody = document.querySelector('#weakWinnerTable tbody');
+        tbody.innerHTML = '';
+        
+        const limit = 10;
+        if (weakWinners.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3 text-secondary">ไม่พบข้อมูลที่เข้าเกณฑ์</td></tr>';
+            return;
+        }
+
+        weakWinners.slice(0, limit).forEach(a => {
+            const loc = getProvinceName(a.area_code);
+            const winP = getPartyInfo(a.mp_winner_party);
+            const twinP = getPartyInfo(a.pl_twin_party);
+            const diff = a.pl_twin_votes - a.mp_winner_pl_votes;
+            
+            const row = `<tr>
+                <td><div class="fw-bold">${loc}</div><small class="text-secondary">${a.area_code}</small></td>
+                <td>
+                    <div class="fw-bold text-primary-theme">${winP.name}</div>
+                    <div class="badge bg-light text-dark border">เบอร์ ${a.mp_winner_number}</div>
+                </td>
+                <td class="text-end fw-bold text-dark border-end bg-light">${a.mp_votes.toLocaleString()}</td>
+                <td class="text-end text-secondary">${(a.mp_winner_pl_votes||0).toLocaleString()}</td>
+                <td class="text-end">
+                    <div class="fw-bold text-danger">${a.pl_twin_votes.toLocaleString()}</div>
+                    <small class="text-muted" style="font-size:0.8em">${twinP.name}</small>
+                </td>
+                <td class="text-end fw-bold text-danger">-${diff.toLocaleString()}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
     }
 
 
