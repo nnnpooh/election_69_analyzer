@@ -6,7 +6,10 @@ from collections import defaultdict
 MP_DIR = "data/mp"
 PL_DIR = "data/pl"
 COMMON_DATA_FILE = "docs/data/common-data.json"
-OUTPUT_FILE = "data/anomaly_report.json"
+OUTPUT_ANOMALY_FILE = "data/anomaly_report.json"
+OUTPUT_PROVINCE_FILE = "data/province_stats.json"
+OUTPUT_MP_PARTY_FILE = "data/mp_party_stats.json"
+OUTPUT_COMPARISON_FILE = "data/party_comparison_stats.json"
 SINGLE_DIGIT_RANGE = [str(i) for i in range(1, 10)] 
 EXCLUDED_PARTIES = ["6", "9"] 
 
@@ -64,6 +67,14 @@ def main():
     mp_files = sorted([f for f in os.listdir(MP_DIR) if f.endswith(".json")])
     anomalies = []
     
+    # Initialize Comparison Stats: Track votes for targeted parties
+    # Structure: { "PARTY-000X": { "twin_votes": [], "non_twin_votes": [] } }
+    comparison_stats = {}
+    target_numbers = [n for n in SINGLE_DIGIT_RANGE if n not in EXCLUDED_PARTIES]
+    for n in target_numbers:
+        pid = f"PARTY-{int(n):04d}"
+        comparison_stats[pid] = {"twin_votes": [], "non_twin_votes": [], "number": n}
+
     for filename in mp_files:
         area_code = filename.replace(".json", "")
         mp_path = os.path.join(MP_DIR, filename)
@@ -93,6 +104,22 @@ def main():
         
         if not winner_num_str:
             continue
+
+        # --- COMPARISON DATA COLLECTION ---
+        for pid, stats in comparison_stats.items():
+            party_num = stats["number"]
+            
+            # Find votes for this party in this area
+            pl_entry = next((e for e in pl_entries if e.get("partyCode") == pid), None)
+            votes = pl_entry.get("voteTotal", 0) if pl_entry else 0
+            
+            if winner_num_str == party_num:
+                # This is a "Twin Area" for this party
+                stats["twin_votes"].append(votes)
+            else:
+                # This is a "Normal Area" (Non-Twin)
+                stats["non_twin_votes"].append(votes)
+        # ----------------------------------
             
         # 2. Extract Winner Stats
         winner_party_code = winner.get("partyCode", "")
@@ -214,23 +241,71 @@ def main():
         
     sorted_mp_parties.sort(key=lambda x: x["count"], reverse=True)
     
+    # Process Comparison Stast
+    final_comparison = []
+    for pid, stats in comparison_stats.items():
+        twin_v = stats["twin_votes"]
+        non_twin_v = stats["non_twin_votes"]
+        
+        avg_twin = sum(twin_v) / len(twin_v) if twin_v else 0
+        avg_non_twin = sum(non_twin_v) / len(non_twin_v) if non_twin_v else 0
+        diff = avg_twin - avg_non_twin
+        
+        final_comparison.append({
+            "party_code": pid,
+            "party_number": stats["number"],
+            "avg_twin_votes": round(avg_twin, 2),
+            "avg_non_twin_votes": round(avg_non_twin, 2),
+            "diff": round(diff, 2),
+            "twin_area_count": len(twin_v),
+            "non_twin_area_count": len(non_twin_v)
+        })
+    
+    # Enrich anomalies with comparison context
+    party_avg_map = {item["party_code"]: item["avg_non_twin_votes"] for item in final_comparison}
+    
+    for a in anomalies:
+        pl_party = a["pl_twin_party"]
+        if pl_party in party_avg_map:
+            avg = party_avg_map[pl_party]
+            a["avg_non_twin_votes"] = avg
+            a["excess_votes"] = round(a["pl_twin_votes"] - avg, 2)
+            a["pct_increase"] = round(((a["pl_twin_votes"] - avg) / avg) * 100, 1) if avg > 0 else 0
+        else:
+            a["avg_non_twin_votes"] = 0
+            a["excess_votes"] = 0
+            a["pct_increase"] = 0
+
     # Save to JSON
-    output_data = {
+    # 1. Anomaly Report
+    anomaly_data = {
         "metadata": {
             "description": "Anomaly detection report based on Twin Number Hypothesis (Buy 1 Get 2)",
             "criteria": "Winner MP Number (1-9, excl 6,9) matches Top 7 Party List Number (Different Party)",
             "total_areas_flagged": len(anomalies)
         },
-        "anomalies": anomalies,
-        "province_stats": sorted_provinces,
-        "mp_party_stats": sorted_mp_parties
+        "anomalies": anomalies
     }
-    
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(output_data, f, ensure_ascii=False, indent=2)
+    with open(OUTPUT_ANOMALY_FILE, "w", encoding="utf-8") as f:
+        json.dump(anomaly_data, f, ensure_ascii=False, indent=2)
+    print(f"Saved: {OUTPUT_ANOMALY_FILE}")
+
+    # 2. Province Stats
+    with open(OUTPUT_PROVINCE_FILE, "w", encoding="utf-8") as f:
+        json.dump({"province_stats": sorted_provinces}, f, ensure_ascii=False, indent=2)
+    print(f"Saved: {OUTPUT_PROVINCE_FILE}")
+
+    # 3. MP Party Stats
+    with open(OUTPUT_MP_PARTY_FILE, "w", encoding="utf-8") as f:
+        json.dump({"mp_party_stats": sorted_mp_parties}, f, ensure_ascii=False, indent=2)
+    print(f"Saved: {OUTPUT_MP_PARTY_FILE}")
+
+    # 4. Comparison Stats
+    with open(OUTPUT_COMPARISON_FILE, "w", encoding="utf-8") as f:
+        json.dump({"comparison_stats": final_comparison}, f, ensure_ascii=False, indent=2)
+    print(f"Saved: {OUTPUT_COMPARISON_FILE}")
         
     print(f"\nAnalysis complete. Found {len(anomalies)} anomalies.")
-    print(f"Report saved to: {(OUTPUT_FILE)}")
     
     # Print Summaries
     print("\n=== Top 5 Provinces by Anomalies ===")

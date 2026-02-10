@@ -190,6 +190,39 @@
             </div>
         </div>
 
+        <!-- Comparison Section -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header">
+                <h4 class="mb-0">⚖️ เปรียบเทียบผลกระทบ: เขตที่มี vs ไม่มี "เบอร์แฝด"</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-secondary mb-4">
+                    กราฟเปรียบเทียบ <strong>คะแนนเฉลี่ย</strong> ของพรรคบัญชีรายชื่อ ระหว่าง <span class="badge bg-danger">เขตที่มีเบอร์แฝด</span> (ผู้ชนะ ส.ส. เบอร์เดียวกับพรรค) กับ <span class="badge bg-secondary">เขตทั่วไป</span>
+                </p>
+                <canvas id="comparisonChart" style="max-height: 450px;"></canvas>
+            </div>
+            
+            <!-- Comparison Table -->
+            <div class="card-footer bg-white p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="comparisonTable">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">พรรคบัญชีรายชื่อ (เบอร์ที่ตรงกัน)</th>
+                                <th class="text-center">คะแนนเฉลี่ย (พื้นที่แฝด)</th>
+                                <th class="text-center">คะแนนเฉลี่ย (พื้นที่ปกติ)</th>
+                                <th class="text-end pe-4">ส่วนต่าง</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="text-center py-2 text-secondary small">
+                    * พื้นที่แฝด = เขตที่ ส.ส. ผู้ชนะเป็นพรรคอื่น แต่มีเบอร์เดียวกับพรรคบัญชีรายชื่อนี้
+                </div>
+            </div>
+        </div>
+
         <!-- New Aggregation Section -->
         <div class="row mb-5">
             <!-- Top Provinces -->
@@ -279,8 +312,7 @@
                                 <th>พรรคบัญชีรายชื่อ (เบอร์เดียวกัน)</th>
                                 <th>อันดับ</th>
                                 <th>คะแนนพรรคแฝด</th>
-                                <th>คะแนน ส.ส. พรรคแฝด</th>
-                                <th>% เทียบกับ ส.ส.</th>
+                                <th>ส่วนต่างจากปกติ (+%)</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -320,15 +352,29 @@
 
     async function loadData() {
         try {
-            const [reportRes, commonRes, partyRes] = await Promise.all([
+            const [reportRes, provinceRes, mpPartyRes, comparisonRes, commonRes, partyRes] = await Promise.all([
                 fetch('data/anomaly_report.json'),
+                fetch('data/province_stats.json'),
+                fetch('data/mp_party_stats.json'),
+                fetch('data/party_comparison_stats.json'),
                 fetch('data/common-data.json'),
                 fetch('data/party-data.json')
             ]);
 
             const reportData = await reportRes.json();
+            const provinceData = await provinceRes.json();
+            const mpPartyData = await mpPartyRes.json();
+            const comparisonData = await comparisonRes.json();
             const commonData = await commonRes.json();
             const partyData = await partyRes.json();
+            
+            // Merge for aggregations
+            const combinedData = {
+                ...reportData,
+                province_stats: provinceData.province_stats,
+                mp_party_stats: mpPartyData.mp_party_stats,
+                comparison_stats: comparisonData.comparison_stats
+            };
             
             // Process metadata
             processCommonData(commonData);
@@ -336,12 +382,13 @@
 
             allAnomalies = reportData.anomalies;
             renderDashboard(reportData);
-            renderAggregations(reportData);
+            renderAggregations(combinedData);
+            renderComparison(comparisonData.comparison_stats);
             renderPartySummary(allAnomalies);
             renderTableBatch();
         } catch (error) {
             console.error('Error loading data:', error);
-            document.body.innerHTML += `<p style="color:red">เกิดข้อผิดพลาดในการโหลดข้อมูล (anomaly_report.json, common-data.json, party-data.json) โปรดตรวจสอบว่าไฟล์มีอยู่จริง</p>`;
+            document.body.innerHTML += `<p style="color:red">เกิดข้อผิดพลาดในการโหลดข้อมูล (โปรดตรวจสอบว่าไฟล์ JSON ทั้งหมดมีอยู่จริง)</p>`;
         }
     }
 
@@ -373,6 +420,103 @@
 
     function getPartyInfo(code) {
         return partyMap[code] || { name: code, color: '#666666' };
+    }
+
+    function renderComparison(stats) {
+        // Sort by difference
+        stats.sort((a,b) => b.diff - a.diff);
+        
+        // Take top 7 for readability
+        const topStats = stats.slice(0, 7);
+        
+        const labels = topStats.map(s => {
+            const p = getPartyInfo(s.party_code);
+            return `${p.name} (เบอร์ ${s.party_number})`;
+        });
+        
+        const twinData = topStats.map(s => s.avg_twin_votes);
+        const nonTwinData = topStats.map(s => s.avg_non_twin_votes);
+        
+        new Chart(document.getElementById('comparisonChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'เฉลี่ยในเขตที่เป็น "เบอร์แฝด"',
+                        data: twinData,
+                        backgroundColor: '#ef476f', // Pink/Red
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'เฉลี่ยในเขตทั่วไป',
+                        data: nonTwinData,
+                        backgroundColor: '#e5e5e5', // Grey
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: (ctx) => {
+                                const idx = ctx.dataIndex;
+                                const item = topStats[idx];
+                                if (ctx.datasetIndex === 0) return `(จาก ${item.twin_area_count} เขต)`;
+                                return `(จาก ${item.non_twin_area_count} เขต)`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'คะแนนเฉลี่ย (Votes)' }
+                    },
+                    x: {
+                        ticks: {
+                            font: { size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Populate Table
+        const tableBody = document.querySelector('#comparisonTable tbody');
+        tableBody.innerHTML = '';
+        
+        topStats.forEach(s => {
+            const p = getPartyInfo(s.party_code);
+            const growth = s.avg_non_twin_votes > 0 ? ((s.diff / s.avg_non_twin_votes) * 100).toFixed(0) : 0;
+            
+            const row = `<tr>
+                <td class="ps-4">
+                    <div class="d-flex align-items-center">
+                        <img src="img/${s.party_code}.webp" class="party-logo-sm me-2" onerror="this.style.display='none'"> 
+                        <span class="fw-bold text-primary-theme">${p.name}</span>
+                        <span class="badge bg-light text-dark border ms-2">เบอร์ ${s.party_number}</span>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span class="fw-bold text-danger">${s.avg_twin_votes.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+                    <div class="small text-muted">(${s.twin_area_count} เขต)</div>
+                </td>
+                <td class="text-center">
+                    <span class="text-secondary">${s.avg_non_twin_votes.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+                    <div class="small text-muted">(${s.non_twin_area_count} เขต)</div>
+                </td>
+                <td class="text-end pe-4">
+                    <span class="fw-bold text-success">+${s.diff.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+                    <span class="badge bg-success bg-opacity-10 text-success ms-1">+${growth}%</span>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
     }
 
     function renderAggregations(data) {
@@ -525,8 +669,10 @@
                 </td>
                 <td><span class="badge badge-rank border text-accent">${a.pl_twin_rank}</span></td>
                 <td class="fw-bold text-accent">${a.pl_twin_votes.toLocaleString()}</td>
-                <td class="text-secondary">${(a.mp_twin_candidate_votes || 0).toLocaleString()}</td>
-                <td class="text-secondary small">${(a.ratio_pl_to_mp * 100).toFixed(1)}%</td>
+                <td>
+                    <div class="fw-bold text-danger">+${(a.excess_votes || 0).toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                    <div class="small text-muted">+${(a.pct_increase || 0).toFixed(0)}%</div>
+                </td>
             </tr>`;
             tableBody.innerHTML += row;
         });
