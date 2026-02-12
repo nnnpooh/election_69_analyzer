@@ -280,7 +280,7 @@ def main():
     anomaly_data = {
         "metadata": {
             "description": "Anomaly detection report based on Twin Number Hypothesis (Buy 1 Get 2)",
-            "criteria": "Winner MP Number (1-15, excl 6,9,11) matches Top 7 Party List Number (Different Party)",
+            "criteria": "Winner MP Number (1-15, excl 6,9,11) matches Top 10 Party List Number (Different Party) or has twin MP candidate with significant votes",
             "total_areas_flagged": len(anomalies)
         },
         "anomalies": anomalies

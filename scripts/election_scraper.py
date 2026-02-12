@@ -95,7 +95,7 @@ def main():
         # 2. Fetch Party List (PL) Data
         pl_entries = fetch_json_data("pl", current_code)
         
-        if pl_entries != "ERROR":
+        if pl_entries is not None and pl_entries != "ERROR":
             if save_to_json("pl", current_code, pl_entries):
                 pl_success += 1
                 

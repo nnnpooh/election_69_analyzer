@@ -69,8 +69,8 @@ def calculate_nationwide_votes():
         pl_total = pl_party_votes.get(party_code, 0)
         mp_total = mp_party_votes.get(party_code, 0)
         
-        # Calculate Ratio
-        ratio = round(pl_total / mp_total, 2) if mp_total > 0 else (pl_total if pl_total > 0 else 0)
+        # Calculate Ratio (PL / MP). None when MP votes are 0 (ratio not meaningful)
+        ratio = round(pl_total / mp_total, 2) if mp_total > 0 else None
 
         party_data = {
             "party_number": party_num,

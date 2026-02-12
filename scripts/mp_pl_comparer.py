@@ -57,17 +57,25 @@ def compare_mp_and_pl() -> None:
             matches = []
             for pl_entry in pl_entries:
                 pl_party_code = pl_entry.get("partyCode", "")
-                last_2 = pl_party_code[-2:]
+                
+                # Parse party number properly (PARTY-0046 -> 46, PARTY-0005 -> 5)
+                try:
+                    pl_party_num = str(int(pl_party_code.split("-")[-1]))
+                except (ValueError, IndexError):
+                    continue
                 
                 # Logic: Skip if party number is "6", "9" or "11"
                 # "6" is United Thai Nation Party
                 # "9" is Pheu Thai Party
                 # "11" is Chart Thai Pattana Party
-                if last_2 in ["06", "09", "11"]:
+                if pl_party_num in ["6", "9", "11"]:
                     continue
                 
+                # Parse MP number (strip leading zeros for consistent comparison)
+                mp_num_parsed = str(int(mp_number)) if mp_number else None
+                
                 # Compare
-                if last_2 == mp_number:
+                if mp_num_parsed and pl_party_num == mp_num_parsed:
                     match_info = {
                         "area": area_code,
                         "mp_number": mp_number,
@@ -75,7 +83,7 @@ def compare_mp_and_pl() -> None:
                         "pl_rank": pl_entry.get('rank'),
                         "pl_party_code": pl_party_code
                     }
-                    matches.append(f"Rank {match_info['pl_rank']} (Party List {last_2})")
+                    matches.append(f"Rank {match_info['pl_rank']} (Party List {pl_party_num})")
                     all_matches.append(match_info)
 
             # 3. Output Row

@@ -1,15 +1,15 @@
-import os
 import json
+from pathlib import Path
 from collections import defaultdict
 
 # Configuration
-MP_DIR = "data/mp"
-PL_DIR = "data/pl"
+MP_DIR = Path("rawdata/mp")
+PL_DIR = Path("rawdata/pl")
 SUSPICIOUS_RATIO = 20.0 
 
 # Canonicalize keys to "1", "2", ... "9"
 SINGLE_DIGIT_RANGE = [str(i) for i in range(1, 10)] 
-EXCLUDED_PARTIES = ["6", "9"] 
+EXCLUDED_PARTIES = ["6", "9", "11"] 
 
 def get_party_suffix(party_code):
     # PARTY-0046 -> "46"
@@ -34,7 +34,7 @@ def get_candidate_number(candidate_code, area_code):
 def analyze():
     print(f"Loading data from {MP_DIR} and {PL_DIR}...")
     
-    mp_files = sorted([f for f in os.listdir(MP_DIR) if f.endswith(".json")])
+    mp_files = sorted([f for f in MP_DIR.iterdir() if f.suffix == ".json"])
     if not mp_files:
         print("No MP data found.")
         return
@@ -46,16 +46,16 @@ def analyze():
     processed_count = 0
     
     for filename in mp_files:
-        area_code = filename.replace(".json", "")
-        mp_path = os.path.join(MP_DIR, filename)
-        pl_path = os.path.join(PL_DIR, filename)
+        area_code = filename.stem
+        mp_path = filename
+        pl_path = PL_DIR / filename.name
 
-        if not os.path.exists(pl_path):
+        if not pl_path.exists():
             continue
 
         try:
-            with open(mp_path, "r") as f: mp_data = json.load(f)
-            with open(pl_path, "r") as f: pl_data = json.load(f)
+            with open(mp_path, "r", encoding="utf-8") as f: mp_data = json.load(f)
+            with open(pl_path, "r", encoding="utf-8") as f: pl_data = json.load(f)
         except Exception:
             continue
 
@@ -111,7 +111,7 @@ def analyze():
     print(f"\n=== 1. ความผิดปกติรูปแบบที่ 1: ปรากฏการณ์เลขเดียวกัน (ติดอันดับ 1-7) ===")
     print(f"สมมติฐาน: ผู้ลงคะแนนกาบัญชีรายชื่อ 'เบอร์ X' ตามเบอร์ของ 'ผู้ชนะ ส.ส. เขต' (กาเลขเบิ้ล)")
     print(f"ตรรกะ: ถ้า ส.ส. เขตชนะด้วยเบอร์ X แล้วพรรคเบอร์ X (คนละพรรค) ติด Top 7 อย่างผิดปกติหรือไม่?")
-    print(f"หมายเหตุ: ไม่นับรวมพรรคหลักเบอร์ 06 และ 09")
+    print(f"หมายเหตุ: ไม่นับรวมพรรคหลักเบอร์ 06, 09 และ 11")
     print("-" * 60)
     print(f"{'เขต':<6} | {'เบอร์':<4} | {'อันดับ PL':<10} | {'คะแนน PL':<10}")
     print("-" * 60)
